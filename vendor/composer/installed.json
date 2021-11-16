@@ -1461,6 +1461,133 @@
             "install-path": "../hamcrest/hamcrest-php"
         },
         {
+            "name": "inertiajs/inertia-laravel",
+            "version": "v0.3.6",
+            "version_normalized": "0.3.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inertiajs/inertia-laravel.git",
+                "reference": "726b1e0d4fc399089dd29820a78e40d1c9aad2eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/726b1e0d4fc399089dd29820a78e40d1c9aad2eb",
+                "reference": "726b1e0d4fc399089dd29820a78e40d1c9aad2eb",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.4|^6.0|^7.0|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0"
+            },
+            "time": "2021-01-08T13:16:40+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Inertia\\ServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Inertia\\": "src"
+                },
+                "files": [
+                    "./helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "homepage": "https://reinink.ca"
+                }
+            ],
+            "description": "The Laravel adapter for Inertia.js.",
+            "keywords": [
+                "inertia",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/inertiajs/inertia-laravel/issues",
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v0.3.6"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/reinink",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../inertiajs/inertia-laravel"
+        },
+        {
+            "name": "laravel/breeze",
+            "version": "v1.4.3",
+            "version_normalized": "1.4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/breeze.git",
+                "reference": "bb97d9a56fe74d9bd0de3ea6ac162ea033637adb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/bb97d9a56fe74d9bd0de3ea6ac162ea033637adb",
+                "reference": "bb97d9a56fe74d9bd0de3ea6ac162ea033637adb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "^8.42",
+                "illuminate/support": "^8.42",
+                "illuminate/validation": "^8.42",
+                "php": "^7.3|^8.0"
+            },
+            "time": "2021-11-02T15:52:42+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Breeze\\BreezeServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Breeze\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Minimal Laravel authentication scaffolding with Blade and Tailwind.",
+            "keywords": [
+                "auth",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/breeze/issues",
+                "source": "https://github.com/laravel/breeze"
+            },
+            "install-path": "../laravel/breeze"
+        },
+        {
             "name": "laravel/framework",
             "version": "v8.70.2",
             "version_normalized": "8.70.2.0",
@@ -7997,6 +8124,75 @@
             "install-path": "../theseer/tokenizer"
         },
         {
+            "name": "tightenco/ziggy",
+            "version": "v1.4.2",
+            "version_normalized": "1.4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tighten/ziggy.git",
+                "reference": "620c135281062b9f6b53a75b07f99a4339267277"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/620c135281062b9f6b53a75b07f99a4339267277",
+                "reference": "620c135281062b9f6b53a75b07f99a4339267277",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.4@dev"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.2"
+            },
+            "time": "2021-10-01T13:55:26+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Tightenco\\Ziggy\\ZiggyServiceProvider"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Tightenco\\Ziggy\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Coulbourne",
+                    "email": "daniel@tighten.co"
+                },
+                {
+                    "name": "Jake Bathman",
+                    "email": "jake@tighten.co"
+                },
+                {
+                    "name": "Jacob Baker-Kretzmar",
+                    "email": "jacob@tighten.co"
+                }
+            ],
+            "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
+            "homepage": "https://github.com/tighten/ziggy",
+            "keywords": [
+                "Ziggy",
+                "javascript",
+                "laravel",
+                "routes"
+            ],
+            "support": {
+                "issues": "https://github.com/tighten/ziggy/issues",
+                "source": "https://github.com/tighten/ziggy/tree/v1.4.2"
+            },
+            "install-path": "../tightenco/ziggy"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.3",
             "version_normalized": "2.2.3.0",
@@ -8272,5 +8468,48 @@
             "install-path": "../webmozart/assert"
         }
     ],
-    "dev": true
+    "dev": true,
+    "dev-package-names": [
+        "doctrine/instantiator",
+        "facade/flare-client-php",
+        "facade/ignition",
+        "facade/ignition-contracts",
+        "fakerphp/faker",
+        "filp/whoops",
+        "hamcrest/hamcrest-php",
+        "laravel/breeze",
+        "laravel/sail",
+        "mockery/mockery",
+        "myclabs/deep-copy",
+        "nunomaduro/collision",
+        "phar-io/manifest",
+        "phar-io/version",
+        "phpdocumentor/reflection-common",
+        "phpdocumentor/reflection-docblock",
+        "phpdocumentor/type-resolver",
+        "phpspec/prophecy",
+        "phpunit/php-code-coverage",
+        "phpunit/php-file-iterator",
+        "phpunit/php-invoker",
+        "phpunit/php-text-template",
+        "phpunit/php-timer",
+        "phpunit/phpunit",
+        "sebastian/cli-parser",
+        "sebastian/code-unit",
+        "sebastian/code-unit-reverse-lookup",
+        "sebastian/comparator",
+        "sebastian/complexity",
+        "sebastian/diff",
+        "sebastian/environment",
+        "sebastian/exporter",
+        "sebastian/global-state",
+        "sebastian/lines-of-code",
+        "sebastian/object-enumerator",
+        "sebastian/object-reflector",
+        "sebastian/recursion-context",
+        "sebastian/resource-operations",
+        "sebastian/type",
+        "sebastian/version",
+        "theseer/tokenizer"
+    ]
 }
