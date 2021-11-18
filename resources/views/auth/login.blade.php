@@ -52,8 +52,10 @@
                 </x-button>
             </div>
         </form>
-        <a href="http://localhost/register" class="">
-            Register
-        </a>
+        <form method='GET' action='http://localhost/register'>
+            <x-button class="ml-3">
+                Register
+            </x-button>
+        </form>
     </x-auth-card>
 </x-guest-layout>
