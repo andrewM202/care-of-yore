@@ -52,5 +52,14 @@
                 </x-button>
             </div>
         </form>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+
+            <x-dropdown-link href="{{ route('register')}}">
+                <x-button class="ml-3">
+                    {{ __('Register') }}
+                </x-button>
+            </x-dropdown-link>
+        </form>
     </x-auth-card>
 </x-guest-layout>
