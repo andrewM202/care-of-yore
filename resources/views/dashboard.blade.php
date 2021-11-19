@@ -9,13 +9,27 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h3 class='font-semibold text-lg text-gray-800 leading-tight'>{{ Auth::user()->name }}'s Page</h3>
-                    <section class="container mx-auto font-mono">
+                    <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Patient's Page</h3>
+                    <section>
+                        <div class="grid grid-cols-4 gap-4 m-5">
+                            
+                            <label for='patient-id'>Patient ID</label>
+                            <input type="text" id="patient-id" class="form-input" placeholder="{{ Auth::user()->id }}" readonly>
+                        
+                            <label for='patient-name'>Patient Name</label>
+                            <input type="text" id="patient-name" class="form-input" placeholder="{{ Auth::user()->name }}" readonly>
+                        
+                            <label for='date'>Date</label>
+                            <input type="text" id="patient-id" class="form-input" placeholder="{{ date('Y-m-d', time()) }}" readonly>
+                            
+                        </div>
+                    </section>
+                    <section class="container mx-auto mt-5">
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                           <div class="w-full overflow-x-auto">
                             <table class="w-full">
                               <thead>
-                                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                                <tr class="text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600">
                                   <th class="px-4 py-3">Doctor's Name</th>
                                   <th class="px-4 py-3">Doctor's Appointment</th>
                                   <th class="px-4 py-3">Caregiver's Name</th>
@@ -35,28 +49,28 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-ms font-semibold border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
                                         Mainul Chowdhury
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                     <td class="px-4 py-3 text-sm border">
-                                        <input type='checkbox'>
+                                        <input type='checkbox' disabled>
                                     </td>
                                 </tr>
                                 
