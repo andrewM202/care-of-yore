@@ -52,5 +52,11 @@
                 </x-button>
             </div>
         </form>
+        <form class='flex justify-end mt-3' method='GET' action='register'>
+            <p class="text-sm text-gray-600">Not logged in yet?</p>
+            <x-button class="ml-3">
+                Register
+            </x-button>
+        </form>
     </x-auth-card>
 </x-guest-layout>
