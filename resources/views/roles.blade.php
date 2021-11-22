@@ -1,5 +1,19 @@
 <x-app-layout>
     <body>
+        <div class='flex flex-row'>
+        <form method="POST" class='m-10'>
+            <div id='roleCreation' class='flex flex-col max-w-sm'>
+                <label for='newRole'>New Role</label>
+                <input type='text' placeholder='Patient' name='newRole' class=''>
+                <label for='accessLevel' class='mt-5'>Access Level</label>
+                <input type='number' placeholder='5' min="0" name='accessLevel'>
+            </div>
+            <div class='mt-5'>
+                <x-button type="submit">Ok</x-button>
+                <x-button type="reset">Cancel</x-button>
+            </div>
+        </form>
+
         <div id='roles' class='m-10'>
             <table class='table-auto'>
                 <thead>
@@ -37,29 +51,11 @@
                         <td class="px-4 py-3 border">Admin</td>
                         <td class="px-4 py-3 border">0</td>
                     </tr>
-                    <tr class='text-gray-700 font-semibold'>
-                        <td class="px-4 py-3 border">Admin</td>
-                        <td class="px-4 py-3 border">0</td>
-                    </tr>
-                    <tr class='text-gray-700 font-semibold'>
-                        <td class="px-4 py-3 border">Admin</td>
-                        <td class="px-4 py-3 border">0</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
+        </div>
+        
 
-        <form method="POST" class='m-10'>
-            <div id='roleCreation' class='flex flex-col max-w-sm'>
-                <label for='newRole'>New Role</label>
-                <input type='text' placeholder='Patient' name='newRole' class=''>
-                <label for='accessLevel' class='mt-5'>Access Level</label>
-                <input type='number' placeholder='5' min="0" name='accessLevel'>
-            </div>
-            <div class='mt-5'>
-                <x-button type="submit">Ok</x-button>
-                <x-button type="reset">Cancel</x-button>
-            </div>
-        </form>
     </body>
 </x-app-layout>
