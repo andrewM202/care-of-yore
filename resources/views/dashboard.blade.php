@@ -12,6 +12,8 @@
                     <x-patient-home></x-patient-home>
 
                     <x-doctor-home></x-doctor-home>
+
+                    <x-caregiver-home></x-caregiver-home>
                 </div>
             </div>
         </div>
