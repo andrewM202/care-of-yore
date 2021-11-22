@@ -1,18 +1,23 @@
 <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Family Member's Home</h3>
 <section>
-    <div class="grid grid-cols-4 gap-4 m-5">
+    <form>
+        <div class="grid grid-cols-4 gap-4 m-5">
+            <label for='date'>Date</label>
+            <input type="date" id="patient-id" class="form-input">
 
-        <label for='patient-id'>Patient ID</label>
-        <input type="text" id="patient-id" class="form-input" placeholder="{{ Auth::user()->id }}" readonly>
+            <label for='family-code'>Family Code</label>
+            <input type="text" id="family-code" class="form-input" placeholder="Family Code">
 
-        <label for='patient-name'>Patient Name</label>
-        <input type="text" id="patient-name" class="form-input" placeholder="{{ Auth::user()->name }}" readonly>
-
-        <label for='date'>Date</label>
-        <input type="text" id="patient-id" class="form-input" placeholder="{{ date('Y-m-d', time()) }}" readonly>
-
-    </div>
+            <label for='patient-id'>Patient ID</label>
+            <input type="text" id="patient-id" class="form-input" placeholder="Patient ID">
+        </div>
+        <div class='float-right m-5'>
+            <x-button>Ok</x-button>
+            <x-button type='reset'>Cancel</x-button>
+        </div>
+    </form>
 </section>
+
 <section class="container mx-auto mt-5">
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
         <div class="w-full overflow-x-auto">

@@ -1,7 +1,7 @@
 <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Caregiver's Home</h3>
 
 <form>
-    <section class="container mx-auto mt-5">
+    <section class="container mx-auto my-5">
         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
             <div class="w-full overflow-x-auto">
                 <table class="w-full">
