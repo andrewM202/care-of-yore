@@ -18,7 +18,7 @@
         </div>
 
         <form method="POST">
-            <div id='roleCreation'>
+            <div id='roleCreation' class='flex flex-col max-w-sm'>
                 <label for='newRole'>New Role</label>
                 <input type='text' placeholder='Patient' name='newRole' class=''>
                 <label for='accessLevel'>Access Level</label>
