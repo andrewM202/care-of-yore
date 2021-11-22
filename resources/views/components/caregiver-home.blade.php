@@ -1,4 +1,4 @@
-<h3 class='font-semibold text-lg text-gray-800 leading-tight'>Doctor's Home</h3>
+<h3 class='font-semibold text-lg text-gray-800 leading-tight'>Caregiver's Home</h3>
 
 <section class="container mx-auto mt-5">
     <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
@@ -7,11 +7,12 @@
                 <thead>
                     <tr class="text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600">
                         <th class="px-4 py-3">Name</th>
-                        <th class="px-4 py-3">Date</th>
-                        <th class="px-4 py-3">Comment</th>
                         <th class="px-4 py-3">Morning Med</th>
                         <th class="px-4 py-3">Afternoon Med</th>
                         <th class="px-4 py-3">Night Med</th>
+                        <th class="px-4 py-3">Breakfast</th>
+                        <th class="px-4 py-3">Lunch</th>
+                        <th class="px-4 py-3">Dinner</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white">
@@ -24,8 +25,11 @@
                         <td class="px-4 py-3 text-ms font-semibold border">
                             <input type='checkbox' disabled>
                         </td>
+                        <td class="px-4 py-3 text-ms font-semibold border">
+                            <input type='checkbox' disabled>
+                        </td>
                         <td class="px-4 py-3 text-sm border">
-                            Mainul Chowdhury
+                            <input type='checkbox' disabled>
                         </td>
                         <td class="px-4 py-3 text-sm border">
                             <input type='checkbox' disabled>

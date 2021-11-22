@@ -21,11 +21,11 @@
                                 Dr. Arafat
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-ms font-semibold border">
-                            <input type='checkbox' disabled>
+                        <td class="px-4 py-3 text-sm border">
+                            Date
                         </td>
                         <td class="px-4 py-3 text-sm border">
-                            Mainul Chowdhury
+                            Placeholder comment
                         </td>
                         <td class="px-4 py-3 text-sm border">
                             <input type='checkbox' disabled>
@@ -74,8 +74,8 @@
                                 Dr. Arafat
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-ms font-semibold border">
-                            <input type='checkbox' disabled>
+                        <td class="px-4 py-3 text-sm border">
+                            Date
                         </td>
                     </tr>
 
