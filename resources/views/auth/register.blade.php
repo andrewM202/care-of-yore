@@ -1,4 +1,14 @@
 <x-guest-layout>
+    <x-slot name="header">
+        <h2 class="absolute bottom-1/4 hidden sm:inline-block font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Register') }}
+        </h2>
+        <h1 class="absolute left-2/4 font-semibold text-3xl bg-white p-8 px-32 text-gray-800 text-center 
+        border-green-300 border-b-4 border-r-4 border-l-4 rounded-xl" 
+        style="left: calc(50% - 218.135px);">
+            Care Of Yore
+        </h1>
+    </x-slot>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
