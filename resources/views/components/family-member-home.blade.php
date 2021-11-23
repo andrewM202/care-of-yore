@@ -1,19 +1,27 @@
 <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Family Member's Home</h3>
 <section>
     <form>
-        <div class="grid grid-cols-4 gap-4 m-5">
-            <label for='date'>Date</label>
-            <input type="date" id="patient-id" class="form-input">
-
-            <label for='family-code'>Family Code</label>
-            <input type="text" id="family-code" class="form-input" placeholder="Family Code">
-
-            <label for='patient-id'>Patient ID</label>
-            <input type="text" id="patient-id" class="form-input" placeholder="Patient ID">
-        </div>
-        <div class='float-right m-5'>
-            <x-button>Ok</x-button>
-            <x-button type='reset'>Cancel</x-button>
+        <div class="grid grid-cols-2 gap-4 m-5">
+            <div class='grid grid-rows-2 gap-4'>
+                <div>
+                    <x-label for='date' :value="__('Date')" />
+                    <x-input type="date" id="date" class="form-input" />
+                </div>
+                <div>
+                    <x-label for='family-code' :value="__('Family Code')" />
+                    <x-input type="text" id="family-code" class="form-input" />
+                </div>
+            </div>
+            <div class='grid grid-rows-2 gap-4'>
+                <div>
+                    <x-label for='patient-id' :value="__('Patient ID')" />
+                    <x-input type="text" id="patient-id" class="form-input" />
+                </div>
+                <div>
+                    <x-button>Ok</x-button>
+                    <x-button type='reset'>Cancel</x-button>
+                </div>
+            </div>
         </div>
     </form>
 </section>

@@ -1,16 +1,22 @@
 <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Patient's Home</h3>
 <section>
-    <div class="grid grid-cols-4 gap-4 m-5">
-
-        <label for='patient-id'>Patient ID</label>
-        <input type="text" id="patient-id" class="form-input" placeholder="{{ Auth::user()->id }}" readonly>
-
-        <label for='patient-name'>Patient Name</label>
-        <input type="text" id="patient-name" class="form-input" placeholder="{{ Auth::user()->name }}" readonly>
-
-        <label for='date'>Date</label>
-        <input type="text" id="patient-id" class="form-input" placeholder="{{ date('Y-m-d', time()) }}" readonly>
-
+    <div class="grid grid-cols-2 gap-4 m-5">
+        <div class='grid grid-rows-2 gap-4'>
+            <div>
+                <x-label for='patient-id' :value="__('Patient ID')" />
+                <x-input type="text" id="patient-id" class="form-input" value='{{ Auth::user()->id }}' readonly />
+            </div>
+            <div>
+                <x-label for='patient-name' :value="__('Patient Name')" />
+                <x-input type="text" id="patient-name" class="form-input" value='{{ Auth::user()->name }}' readonly />
+            </div>
+        </div>
+        <div class='grid grid-rows-2 gap-4'>
+            <div>
+                <x-label for='date' :value="__('Date')" />
+                <x-input type="text" id="patient-id" class="form-input" value='{{ date("Y/m/d") }}' readonly />
+            </div>
+        </div>
     </div>
 </section>
 <section class="container mx-auto mt-5">
