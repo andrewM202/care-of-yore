@@ -29,4 +29,6 @@ Route::get('/roles', function () {
     return view('roles');
 })->middleware(['auth'])->name('roles');
 
+Route::view(url: 'roles', view: 'roles');
+
 require __DIR__.'/auth.php';
