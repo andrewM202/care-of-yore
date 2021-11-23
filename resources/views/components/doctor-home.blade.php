@@ -49,8 +49,8 @@
         <div class="grid grid-cols-3 gap-4 m-5">
             <p>Appointments</p>
             <div>
-                <label for='date'>Till Date</label>
-                <input type='date' placeholder='Till Date' name='date' value='date'>
+                <x-label for='till-date' :value="__('Till Date')" />
+                <x-input type="date" id="till-date" class="form-input" />
             </div>
             <x-button>Submit</x-button>
         </div>
