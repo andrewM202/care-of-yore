@@ -56,6 +56,5 @@
         </div>
         </div>
         
-
     </body>
 </x-app-layout>

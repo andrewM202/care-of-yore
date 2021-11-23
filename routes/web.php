@@ -21,12 +21,13 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/roles', function () {
-    return view('roles');
-})->middleware(['auth'])->name('roles');
+    Route::view('roles', 'roles')->name('roles');
+    Route::view('approval', 'approval')->name('approval');
+});
 
 require __DIR__.'/auth.php';

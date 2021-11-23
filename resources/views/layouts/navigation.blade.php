@@ -34,6 +34,15 @@
                     </x-slot>
 
                     <x-slot name="content">
+
+                        <x-dropdown-link :href='route("roles")'>
+                            {{ __('Roles')}}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href='route("approval")'>
+                            {{ __('Approval')}}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
