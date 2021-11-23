@@ -13,7 +13,7 @@
     <div class="container mx-auto px-4">
       <div class="mb-16 max-w-md mx-auto text-center">
         <span class="text-green-600 font-bold">Dolor sit amet consectutar</span>
-        <h2 class="text-4xl md:text-5xl font-bold">Build &amp; Launch without problems</h2>
+        <h2 class="text-4xl md:text-5xl font-bold">Care By Those Who Care.</h2>
       </div>
       <div class="flex flex-wrap -mx-4">
         <div class="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">

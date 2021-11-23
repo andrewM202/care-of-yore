@@ -18,8 +18,8 @@
     </head>
     <body class="bg-gray-100">
         <!-- Page Heading -->
-        <header class="bg-white shadow">
-            <div class="border-b-2 border-green-300 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <header class="relative bg-white shadow">
+            <div class="border-b-2 h-8 border-green-300 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
         </header>
