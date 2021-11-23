@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('dashboard');
 
     Route::view('roles', 'roles')->name('roles');
+    Route::view('approval', 'approval')->name('approval');
 });
 
 require __DIR__.'/auth.php';
