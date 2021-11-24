@@ -43,6 +43,10 @@
                             {{ __('Approval')}}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href='route("patients")'>
+                            {{ __('Patients')}}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -85,6 +89,11 @@
             </div>
 
             <div class="mt-3 space-y-1">
+
+                <x-responsive-nav-link :href="route('patients')">
+                    {{ __('Patients') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
