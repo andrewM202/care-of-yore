@@ -5,6 +5,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                 <div class='flex flex-row justify-center'>
+                <x-slot name="header">
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                        {{ __('Role Management') }}
+                    </h2>
+                </x-slot>
                         <form method="POST" class='m-10'>
                             <div id='roleCreation' class='flex flex-col max-w-sm'>
                                 <label for='newRole'>New Role</label>

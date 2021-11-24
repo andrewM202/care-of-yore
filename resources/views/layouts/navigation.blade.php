@@ -42,9 +42,14 @@
                         <x-dropdown-link :href='route("approval")'>
                             {{ __('Approval')}}
                         </x-dropdown-link>
-
+                        
+                        <x-dropdown-link :href='route("additional")'>
+                            {{ __('Add Patient Info')}}
+                        </x-dropdown-link>
+                        
                         <x-dropdown-link :href='route("payment")'>
                             {{ __('Payment')}}
+
                         </x-dropdown-link>
 
                         <!-- Authentication -->
