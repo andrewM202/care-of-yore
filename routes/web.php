@@ -28,10 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::view('roles', 'roles')->name('roles');
     Route::view('approval', 'approval')->name('approval');
+    Route::view('payment', 'payment')->name('payment');
 });
-
-Route::get('/payment', function () {
-    return view('payment');
-})->middleware(['auth'])->name('payment');
 
 require __DIR__.'/auth.php';
