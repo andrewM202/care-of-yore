@@ -42,9 +42,14 @@
                         <x-dropdown-link :href='route("approval")'>
                             {{ __('Approval')}}
                         </x-dropdown-link>
-
+                        
                         <x-dropdown-link :href='route("additional")'>
                             {{ __('Add Patient Info')}}
+                        </x-dropdown-link>
+                        
+                        <x-dropdown-link :href='route("payment")'>
+                            {{ __('Payment')}}
+
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -89,6 +94,16 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('roles')">
+                    {{ __('Roles') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('approval')">
+                    {{ __('Approval') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('payment')">
+                    {{ __('Payment') }}
+                </x-responsive-nav-link>
+
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
