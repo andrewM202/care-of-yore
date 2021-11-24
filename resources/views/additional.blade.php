@@ -17,7 +17,7 @@
                                 </div>
                                 <div id='readOnlyInfo' class='flex flex-col ml-10'>
                                     <label for='patientName'>Patient Name</label>
-                                    <input type='text' placeholder='John Smith' name='patientName' class=''>
+                                    <input readonly type='text' placeholder='John Smith' name='patientName' class=''>
                                 </div>
                             </div>
                             <div class='mt-5'>
