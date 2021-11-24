@@ -9,7 +9,7 @@
                             <div id='addPatientInfo' class='flex flex-row'>
                                 <div id='fillablePatientInfo' class='flex flex-col'>
                                     <label for='patientID'>Patient ID</label>
-                                    <input type='number' placeholder='005' name='patientID' class=''>
+                                    <input type='number' placeholder='005' min='0' name='patientID' class=''>
                                     <label for='patientGroup' class='mt-5'>Group</label>
                                     <input type='number' placeholder='3' min="0" name='patientGroup'>
                                     <label for='admissionDate' class='mt-5'>Admission Date</label>
