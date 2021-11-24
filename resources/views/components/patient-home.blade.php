@@ -14,7 +14,7 @@
         <div class='grid grid-rows-2 gap-4'>
             <div>
                 <x-label for='date' :value="__('Date')" />
-                <x-input type="text" id="patient-id" class="form-input" value='{{ date("Y/m/d") }}' readonly />
+                <x-input type="text" id="patient-id" class="form-input" value='{{ date("m/d/Y") }}' readonly />
             </div>
         </div>
     </div>
