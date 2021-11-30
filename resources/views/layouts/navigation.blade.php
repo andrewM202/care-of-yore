@@ -56,6 +56,14 @@
                             {{ __('Patients')}}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href='route("doctor-appointment")'>
+                            {{ __('Appointment')}}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link :href='route("employee-list")'>
+                            {{ __('Employees')}}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -117,6 +125,14 @@
 
                 <x-responsive-nav-link :href="route('patients')">
                     {{ __('Patients') }}
+                 </x-responsive-nav-link>
+
+                 <x-responsive-nav-link :href="route('doctor-appointment')">
+                    {{ __('Appointment') }}
+                 </x-responsive-nav-link>
+
+                 <x-responsive-nav-link :href="route('employee-list')">
+                    {{ __('Employees') }}
                  </x-responsive-nav-link>
 
                 <!-- Authentication -->
