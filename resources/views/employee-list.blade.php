@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Doctor Appointment') }}
+            {{ __('Employee List') }}
         </h2>
     </x-slot>
 
@@ -111,10 +111,18 @@
                      </div>
                     </div>
                     <div class="flex items-center h-full">
-                        <div class='h-48 grid grid-rows-2 gap-4'>
+                        <div class='h-full grid grid-rows-2 gap-4'>
                             <div class="flex justify-center flex-col">
                                 <x-label for='employee-id' :value="__('Employee ID')" />
                                 <x-input type="text" id="employee-id" class="form-input" />
+                            </div>
+                            <div class="flex justify-center flex-col">
+                                <x-label for='employee-name' :value="__('Employee Name')" />
+                                <x-input type="text" id="employee-name" class="form-input" />
+                            </div>
+                            <div class="flex justify-center flex-col">
+                                <x-label for='employee-role' :value="__('Employee Role')" />
+                                <x-input type="text" id="employee-role" class="form-input" />
                             </div>
                             <div class="flex justify-center flex-col">
                                 <x-label for='new-salary' :value="__('New Salary')" />

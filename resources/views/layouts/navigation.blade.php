@@ -64,6 +64,10 @@
                             {{ __('Employees')}}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href='route("new-roster")'>
+                            {{ __('New Roster')}}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -133,6 +137,10 @@
 
                  <x-responsive-nav-link :href="route('employee-list')">
                     {{ __('Employees') }}
+                 </x-responsive-nav-link>
+
+                 <x-responsive-nav-link :href="route('new-roster')">
+                    {{ __('New Roster') }}
                  </x-responsive-nav-link>
 
                 <!-- Authentication -->
