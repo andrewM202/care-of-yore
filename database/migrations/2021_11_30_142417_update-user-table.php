@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUsersTable extends Migration
+class UpdateUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class UpdateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->smallint('role');
-            $table->varchar('first-name');
-            $table->varchar('last-name');
+        Schema::table('users', function ($table) {
+            $table->smallInteger('role');
+            $table->string('first-name');
+            $table->string('last-name');
             $table->char('phone', 10)->unique();
             $table->date('date-of-birth');
             $table->char('family-code', 6);
-            $table->varchar('emergency-contact');
-            $table->varchar('emergency-contact-relation');
+            $table->string('emergency-contact');
+            $table->string('emergency-contact-relation');
         });
     }
 
