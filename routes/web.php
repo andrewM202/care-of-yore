@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::view('employee-list', 'employee-list')->name('employee-list');
     Route::view('new-roster', 'new-roster')->name('new-roster');
+    Route::view('view-roster', 'view-roster')->name('view-roster');
 });
 
 require __DIR__.'/auth.php';
