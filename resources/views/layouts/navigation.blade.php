@@ -72,6 +72,10 @@
                             {{ __('View Roster')}}
                         </x-dropdown-link>
 
+                        <x-dropdown-link :href='route("admin-report")'>
+                            {{ __('Admin Report')}}
+                        </x-dropdown-link>
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -149,6 +153,10 @@
 
                  <x-responsive-nav-link :href="route('view-roster')">
                     {{ __('View Roster') }}
+                 </x-responsive-nav-link>
+
+                 <x-responsive-nav-link :href="route('admin-report')">
+                    {{ __('Admin Report') }}
                  </x-responsive-nav-link>
 
                 <!-- Authentication -->
