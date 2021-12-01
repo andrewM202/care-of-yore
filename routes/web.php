@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('roles', 'roles')->name('roles');
     Route::view('approval', 'approval')->name('approval');
     Route::view('additional', 'additional')->name('additional');
-    Route::view('payment', 'payment')->name('payment');
+    Route::post('/create-roles', 'App\Http\Controllers\rolesController@createRole');
 });
 
 require __DIR__.'/auth.php';

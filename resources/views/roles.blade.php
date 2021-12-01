@@ -10,10 +10,11 @@
                         {{ __('Role Management') }}
                     </h2>
                 </x-slot>
-                        <form method="POST" class='m-10'>
+                        <form method="POST" action="{{url('/create-roles/')}}" name='newRole' class='m-10'>
+                            @csrf
                             <div id='roleCreation' class='flex flex-col max-w-sm'>
-                                <label for='newRole'>New Role</label>
-                                <input type='text' placeholder='Patient' name='newRole' class=''>
+                                <label for='roleName'>New Role</label>
+                                <input type='text' placeholder='Patient' name='roleName' class=''>
                                 <label for='accessLevel' class='mt-5'>Access Level</label>
                                 <input type='number' placeholder='5' min="0" name='accessLevel'>
                             </div>
