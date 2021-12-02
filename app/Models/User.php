@@ -26,8 +26,8 @@ class User extends Authenticatable
         'phone',
         'password',
         'date_of_birth',
-        'faimly_code',
-        'emergeny_contact',
+        'family_code',
+        'emergency_contact',
         'emergency_contact_relation',
     ];
 

@@ -17,9 +17,9 @@ class UpdateUserTable extends Migration
             $table->smallInteger('role');
             $table->string('first-name');
             $table->string('last-name');
-            $table->char('phone', 10)->unique();
+            $table->string('phone', 10)->unique();
             $table->date('date-of-birth');
-            $table->char('family-code', 6);
+            $table->string('family-code', 6);
             $table->string('emergency-contact');
             $table->string('emergency-contact-relation');
         });

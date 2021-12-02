@@ -14,7 +14,6 @@ class ChangeUserTableColumnAttributes extends Migration
     public function up()
     {
         Schema::table('users', function($table){
-            $table->string('phone', 12)->nullable()->change();
             $table->string('family_code')->nullable()->change();
             $table->string('emergency_contact')->nullable()->change();
             $table->string('emergency_contact_relation')->nullable()->change();
