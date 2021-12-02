@@ -30,7 +30,11 @@
                     <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='role' id='role'>
                         <option value="">Select Role</option>
                         <option value="1">Admin</option>
-                        <option value="2">Patient</option>
+                        <option value="2">Supervisor</option>
+                        <option value="3">Patient</option>
+                        <option value="4">Doctor</option>
+                        <option value="5">Caregiver</option>
+                        <option value="6">Family Member</option>
                     </select>
                 </div>
 
