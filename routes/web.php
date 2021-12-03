@@ -22,10 +22,8 @@ Route::get('/', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 
+    Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('roles', 'roles')->name('roles');
     Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
