@@ -28,7 +28,7 @@
                     <x-label for='role' :value='__("Select Role")' />
 
                     <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='role' id='role' onchange="disableDisable()">
-                        <option value="">Select Role</option>
+                        <option value="" disabled selected hidden>Select Role</option>
                         <option value="1">Admin</option>
                         <option value="2">Supervisor</option>
                         <option value="3">Patient</option>
@@ -115,7 +115,7 @@
                     <x-label for='emergency_contact_relation' :value='__("Relation to Emergency Contact")' />
                     
                     <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1 bg-gray-300' id='emergency_contact_relation' name='emergency_contact_relation' disabled >
-                        <option value="">Select Relation</option>
+                        <option value="" disabled selected hidden>Select Relation</option>
                         <option value="1">Mother</option>
                         <option value="2">Father</option>
                         <option value="3">Sister</option>
