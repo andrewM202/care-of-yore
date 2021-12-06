@@ -64,8 +64,8 @@
                             {{ __('Employees')}}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href='route("new-roster")'>
-                            {{ __('New Roster')}}
+                        <x-dropdown-link :href='route("set-roster")'>
+                            {{ __('Set Roster')}}
                         </x-dropdown-link>
 
                         <x-dropdown-link :href='route("view-roster")'>
@@ -147,8 +147,8 @@
                     {{ __('Employees') }}
                  </x-responsive-nav-link>
 
-                 <x-responsive-nav-link :href="route('new-roster')">
-                    {{ __('New Roster') }}
+                 <x-responsive-nav-link :href="route('set-roster')">
+                    {{ __('Set Roster') }}
                  </x-responsive-nav-link>
 
                  <x-responsive-nav-link :href="route('view-roster')">
