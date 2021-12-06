@@ -1,6 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// Added to query database
+use Illuminate\Support\Facades\DB;
+// Model for roles
+use App\Models\Roles;
+// Get input from requests
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +23,28 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::group(['middleware' => ['auth']], function () {
 
+    Route::post('/add-role', function (Request $request) {
+        $role = new Roles;
+        $role->role_name = $request->input('newRole');
+        $role->access_level = $request->input('accessLevel');
+        $role->save();
+        return redirect('/roles');
+    })->name('add-role');
+    Route::post('/delete-role', function (Request $request) {
+        $role_name = $request->input('roleName');
+        $user = Roles::where('role_name', $role_name)->firstorfail()->delete();
+        return redirect('/roles');
+    })->name('delete-role');
     Route::view('dashboard', 'dashboard')->name('dashboard');
-    Route::view('roles', 'roles')->name('roles');
+    Route::view('', 'welcome')->name('welcome');
+    Route::get('/roles', function () {
+        $roles = DB::select('
+            select * from roles
+        ');
+        return view('roles', ['roles' => $roles]);
+    })->name('roles');
     Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
     Route::view('additional', 'additional')->name('additional');
