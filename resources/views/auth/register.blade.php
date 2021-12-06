@@ -27,8 +27,8 @@
                 <div>
                     <x-label for='role' :value='__("Select Role")' />
 
-                    <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='role' id='role'>
-                        <option value="">Select Role</option>
+                    <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='role' id='role' onchange="disableDisable()">
+                        <option value="" disabled selected hidden>Select Role</option>
                         <option value="1">Admin</option>
                         <option value="2">Supervisor</option>
                         <option value="3">Patient</option>
@@ -104,18 +104,18 @@
                 <div>
                     <x-label for='family_code' :value='__("Family Code")' />
                     
-                    <x-input id='family_code' class='block mt-1 w-full' type='text' name='family_code' :value='old("family-code")' />
+                    <x-input id='family_code' class='block mt-1 w-full bg-gray-300' type='text' name='family_code' :value='old("family-code")' disabled />
                 </div>
                 <div>
                     <x-label for='emergency_contact' :value='__("Emergency Contact")' />
                     
-                    <x-input id='emergency_contact' class='block mt-1 w-full' type='text' name='emergency_contact' :value='old("emergency_contact")' />
+                    <x-input id='emergency_contact' class='block mt-1 w-full bg-gray-300' type='text' name='emergency_contact' :value='old("emergency_contact")' disabled />
                 </div>
                 <div>
-                    <x-label for='emergency_contact' :value='__("Relation to Emergency Contact")' />
+                    <x-label for='emergency_contact_relation' :value='__("Relation to Emergency Contact")' />
                     
-                    <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' id='emergency_contact' name='emergency_contact'>
-                        <option value="">Select Relation</option>
+                    <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1 bg-gray-300' id='emergency_contact_relation' name='emergency_contact_relation' disabled >
+                        <option value="" disabled selected hidden>Select Relation</option>
                         <option value="1">Mother</option>
                         <option value="2">Father</option>
                         <option value="3">Sister</option>
@@ -142,3 +142,28 @@
         </form>
     </x-auth-card>
 </x-guest-layout>
+<script>
+    function disableDisable() {
+        familyCode = document.getElementById('family_code');
+        emergencyContact = document.getElementById('emergency_contact');
+        emergencyContactRelation = document.getElementById('emergency_contact_relation');
+        if (document.getElementById('role').value == 3) {
+            familyCode.disabled = false;
+            familyCode.classList.remove('bg-gray-300');
+            emergencyContact.disabled = false;
+            emergencyContact.classList.remove('bg-gray-300');
+            emergencyContactRelation.disabled = false;
+            emergencyContactRelation.classList.remove('bg-gray-300');
+        } else {
+            familyCode.disabled = true;
+            familyCode.classList.add('bg-gray-300');
+            familyCode.value = '';
+            emergencyContact.disabled = true;
+            emergencyContact.value = '';
+            emergencyContact.classList.add('bg-gray-300');
+            emergencyContactRelation.disabled = true;
+            emergencyContactRelation.classList.add('bg-gray-300');
+            emergencyContactRelation.value = '';
+        }
+    }
+</script>
