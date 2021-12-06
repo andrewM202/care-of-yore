@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Route;
 // Added to query database
 use Illuminate\Support\Facades\DB;
 
+// Model for roles
+use App\Models\User;
+
+// Get input from requests
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,8 +41,27 @@ Route::group(['middleware' => ['auth']], function () {
             select * from users
             where approval = 0
         ');
-        return view('approval', ['users' => $users]);
+        if (count($users) > 0) {
+            return view('approval', ['users' => $users]);
+        } else {
+            return view('approval', ['users' => []]);
+        }
     })->name('approval');
+
+    Route::post('/approve-user', function (Request $request) {
+        $id = $request->input('id');
+        $user = User::find($id);
+        $user->approval = 1;
+        $user->save();
+        return redirect('/approval');
+    })->name('approve-user');
+
+    Route::post('/decline-user', function (Request $request) {
+        $id = $request->input('id');
+        $user = User::where('id', $id)->delete();
+        return redirect('/approval');
+    })->name('decline-user');
+
     Route::view('patients', 'patients')->name('patients');
     Route::view('additional', 'additional')->name('additional');
     Route::view('payment', 'payment')->name('payment');
