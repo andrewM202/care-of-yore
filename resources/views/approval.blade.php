@@ -10,7 +10,7 @@
                             {{ __('Registration Approval') }}
                         </h2>
                     </x-slot>
-                    <form method='POST'>
+                    {{-- <form method='GET' action='{{ route('update_approval') }}'>
                         <div id='roles' class='m-10 flex flex-row'>
                             <table class='table-auto'>
                                 <thead>
@@ -23,6 +23,7 @@
                                 </thead>
                                 <tbody class='bg-white'>
                                     @foreach($users as $user)
+                                        <input type='hidden' name='id' value='{{ $user->id }}'>
                                         <tr class='text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600'>
                                             <td class="px-4 py-3">{{ $user->first_name." ".$user->last_name }}</td>
                                             <td class="px-4 py-3">{{ $user->role }}</td>
@@ -30,7 +31,7 @@
                                                 <input type='radio' name='approve'>
                                             </td>
                                             <td class="px-4 py-3 border">
-                                                <input type='radio' name='approve'>
+                                                <input type='radio' name='decline'>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -38,7 +39,8 @@
                             </table>
                             <x-button type='submit' class='ml-10 max-h-10 self-end mb-2'>Submit</x-button>
                         </div>
-                    </form>
+                    </form> --}}
+                    
                     </div>
                 </div>
             </div>
