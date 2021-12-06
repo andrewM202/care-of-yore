@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Added to query database
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +30,13 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('dashboard');
 
     Route::view('roles', 'roles')->name('roles');
-    Route::view('approval', 'approval')->name('approval');
+    Route::get('/approval', function () {
+        $users = DB::select('
+            select * from users
+            where approval = 0
+        ');
+        return view('approval', ['users' => $users]);
+    })->name('approval');
     Route::view('patients', 'patients')->name('patients');
     Route::view('additional', 'additional')->name('additional');
     Route::view('payment', 'payment')->name('payment');

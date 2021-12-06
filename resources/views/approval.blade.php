@@ -22,16 +22,18 @@
                                     </tr>
                                 </thead>
                                 <tbody class='bg-white'>
-                                    <tr class='text-gray-700 font-semibold'>
-                                        <td class="px-4 py-3 border">Admin</td>
-                                        <td class="px-4 py-3 border">0</td>
-                                        <td class="px-4 py-3 border">
-                                            <input type='radio' name='approve'>
-                                        </td>
-                                        <td class="px-4 py-3 border">
-                                            <input type='radio' name='approve'>
-                                        </td>
-                                    </tr>
+                                    @foreach($users as $user)
+                                        <tr class='text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600'>
+                                            <td class="px-4 py-3">{{ $user->first_name." ".$user->last_name }}</td>
+                                            <td class="px-4 py-3">{{ $user->role }}</td>
+                                            <td class="px-4 py-3 border">
+                                                <input type='radio' name='approve'>
+                                            </td>
+                                            <td class="px-4 py-3 border">
+                                                <input type='radio' name='approve'>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                             <x-button type='submit' class='ml-10 max-h-10 self-end mb-2'>Submit</x-button>
