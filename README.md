@@ -23,6 +23,18 @@
     - sail artisan migrate
         - Runs migration / calls the up() function
     - In migration, down() function undues the migration, while up() creates it
-    - sail artisan migrate:rollback 
+    - sail artisan migrate:rollback --path=/database/migrations/name
         - Undues migration / calls the down() function
+    
+
+- Making a Seeder
+    - These are used to seed the database with data 
+1. Make seeder
+    - sail artisan make:seeder seeder_name
+    - Add this import to the top:
+        - use Illuminate\Support\Facades\DB;
+2. Run seeder
+    - sail artisan db:seed --class=SeederFileName
+    - Or, rerun migrations and seed again:
+        - sail artisan migrate:fresh --seed
 
