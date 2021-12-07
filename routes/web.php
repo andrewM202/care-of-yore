@@ -9,15 +9,8 @@ use App\Models\Roles;
 use App\Models\Roster;
 // Get input from requests
 use Illuminate\Http\Request;
-
-// Added to query database
-use Illuminate\Support\Facades\DB;
-
 // Model for roles
 use App\Models\User;
-
-// Get input from requests
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
