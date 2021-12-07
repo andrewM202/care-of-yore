@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('', 'welcome')->name('welcome');
     Route::get('/roles', function () {
         $roles = DB::select('
-            select * from roles
+            select * from roles;
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
@@ -52,8 +52,21 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::view('employee-list', 'employee-list')->name('employee-list');
     Route::get('/set-roster', function () {
-        
-        return view('set-roster');
+        $roster = DB::select("
+            select * from rosters 
+            where roster_date = ( 
+                select roster_date from rosters 
+                order by roster_date desc
+                limit 1 
+            )
+        ");
+        $date = DB::select("
+            select roster_date from rosters
+            order by roster_date desc
+            limit 1
+        ");
+        return view('set-roster', ['roster' => $roster])
+        ->with('date', $date);
     })->name('set-roster');
     Route::get('/view-roster', function(){
 

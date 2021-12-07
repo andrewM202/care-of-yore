@@ -24,39 +24,67 @@
                             </div>
                             <form id='roles' class='m-10 flex justify-center flex-col'>
                                 @csrf
-                                <h1 class="mb-1.5 text-center text-xl">10/17/2021</h1>
+                                @empty($date)
+                                <x-input type='hidden' value='<?php echo date("m/d/Y"); ?>' />
+                                <h1 class="mb-1.5 text-center text-xl">
+                                    <?php echo date("m/d/Y") ?>
+                                </h1>
+                                @endempty
+                                @foreach($date as $date)
+                                <x-input type='hidden' value='{{ $date->date }}' />
+                                <h1 class="mb-1.5 text-center text-xl">
+                                    {{ $date->date }}
+                                </h1>
+                                @endforeach
                                 <table class='table-auto'>
                                     <thead>
                                         <tr class='text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600'>
                                             <th class="px-4 py-3">Role</th>
-                                            <th class="px-4 py-3">Personnel</th>
+                                            <th class="px-4 py-3">Personnel Name</th>
                                         </tr>
                                     </thead>
                                     <tbody class='bg-white'>
+                                        @foreach($roster as $rostee)
+                                            @if(isset($rostee->roster_date) and isset($rostee->personnel_name))
+                                            <tr class='text-gray-700 font-semibold'>
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name}}</td>
+                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->roster_date}}' 
+                                                value="{{ $rostee->roster_date}}" /></td>
+                                            </tr>
+                                            @else
+                                            <tr class='text-gray-700 font-semibold'>
+                                                <td class="px-4 py-3 border">Supervisor</td>
+                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' 
+                                                value="Not Set" /></td>
+                                            </tr>
+                                            @endif
+                                        @endforeach
+                                        @empty($roster)
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Supervisor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Doctor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 1</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver1' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver1' placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 2</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver2' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver2' placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 3</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver3' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver3' placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 4</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver4' value="Test" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver4' placeholder="Not Set" /></td>
                                         </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                                 <div class="flex justify-center mt-4">
