@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 // Model for roles
 use App\Models\Roles;
+// Model for doctor appointments
+use App\Models\User;
 // Get input from requests
 use Illuminate\Http\Request;
 
@@ -45,6 +47,20 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
+    Route::post('/doctor-appointment', function() {
+        //$patient_name = ['name' => " "];
+        //var_dump($patient_name);
+        return view('doctor-appointment');
+    })->name('doctor-appointment');
+    Route::post('/doctor-appointment', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $patient_name = DB::select('
+            select name from users
+            where id = '.$patient_id.'
+        ');
+        $patient_name = (array)array_values($patient_name)[0];
+        return view('doctor-appointment', ['patient_name' => $patient_name]);
+    })->name('doctor-appointment');
     Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
     Route::view('additional', 'additional')->name('additional');
