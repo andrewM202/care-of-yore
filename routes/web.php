@@ -202,7 +202,11 @@ Route::group(['middleware' => ['auth']], function () {
             order by roster_date desc
             limit 1
         ");
-        $date = (array)array_values($date)[0];
+        try {
+            $date = (array)array_values($date)[0];
+        } catch(Exception $ex) {
+            $date = $date;
+        }
         return view('set-roster', ['roster' => $roster])
         ->with('date', $date);
     })->name('view-set-roster');
@@ -220,7 +224,11 @@ Route::group(['middleware' => ['auth']], function () {
             order by roster_date desc
             limit 1
         ");
-        $date = (array)array_values($date)[0];
+        try {
+            $date = (array)array_values($date)[0];
+        } catch(Exception $ex) {
+            $date = $date;
+        }
         return view('view-roster', ['roster' => $roster])
         ->with('date', $date);
     })->name('view-roster');
