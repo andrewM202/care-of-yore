@@ -42,7 +42,7 @@
                         </form> --}}
                         <div class='container m-5'>
                             @if ($users != [])
-                                <h2 class='text-xl'>Approve User? There {{(count($users) == 1 ? 'is' : 'are').count($users).(count($users) == 1 ? 'user' : 'users')}} to evaluate</h2>
+                                <h2 class='text-xl'>Approve User? There {{(count($users) == 1 ? 'is ' : 'are ').count($users).(count($users) == 1 ? ' user' : ' users')}} to evaluate</h2>
                                 <div class='flex'>
                                     <table class='table-auto mt-5'>
                                         <thead>
