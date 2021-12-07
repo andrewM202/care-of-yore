@@ -16,7 +16,7 @@ class CreateRostersTable extends Migration
         Schema::create('rosters', function (Blueprint $table) {
             $table->id('roster_id');
             $table->string('role');
-            $table->string('personnel_name');
+            $table->string('personnel_name')->nullable();
             $table->timestamp('roster_date');
         });
     }

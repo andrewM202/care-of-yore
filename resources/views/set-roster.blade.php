@@ -11,29 +11,32 @@
                                 </h2>
                             </x-slot>
                             <div class="flex">
-                                <form method="GET" class='m-10'>
+                                <form method="GET" class='m-10' action={{ route('get-roster') }}>
                                     @csrf 
                                     <div id='roleCreation' class='flex flex-col max-w-sm'>
                                         <label for='newRole'>Roster Date</label>
-                                        <x-input type='date' name='newRole'/>
+                                        <x-input type='date' name='roster_date'/>
                                     </div>
                                     <div class='mt-5'>
                                         <x-button type="submit">Search</x-button>
                                     </div>
                                 </form>
                             </div>
-                            <form id='roles' class='m-10 flex justify-center flex-col'>
+                            <form id='roles' class='m-10 flex justify-center flex-col' method='POST' action="{{ route('set-roster')}}">
                                 @csrf
                                 @empty($date)
-                                <x-input type='hidden' value='<?php echo date("m/d/Y"); ?>' />
+                                <x-input type='hidden' name="roster_date" value='<?php echo date("m/d/Y"); ?>' />
                                 <h1 class="mb-1.5 text-center text-xl">
                                     <?php echo date("m/d/Y") ?>
                                 </h1>
                                 @endempty
                                 @foreach($date as $date)
-                                <x-input type='hidden' value='{{ $date->date }}' />
+                                <x-input type='hidden' name="roster_date" value="{{ $date }}" />
                                 <h1 class="mb-1.5 text-center text-xl">
-                                    {{ $date->date }}
+                                    <?php 
+                                        $date = strtotime($date); 
+                                        echo date('m/d/Y', $date);
+                                    ?>
                                 </h1>
                                 @endforeach
                                 <table class='table-auto'>
@@ -47,42 +50,47 @@
                                         @foreach($roster as $rostee)
                                             @if(isset($rostee->roster_date) and isset($rostee->personnel_name))
                                             <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name}}</td>
-                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->roster_date}}' 
-                                                value="{{ $rostee->roster_date}}" /></td>
+                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
+                                                @if($rostee->personnel_name !== '')
+                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->role }}' 
+                                                value="{{ $rostee->personnel_name }}" /></td>
+                                                @else
+                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->role }}' 
+                                                value="" placeholder="Not Set" /></td>
+                                                @endif
                                             </tr>
                                             @else
                                             <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">Supervisor</td>
+                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
                                                 <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' 
-                                                value="Not Set" /></td>
+                                                value="" placeholder="Not Set" /></td>
                                             </tr>
                                             @endif
                                         @endforeach
                                         @empty($roster)
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Supervisor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Doctor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 1</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver1' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver1' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 2</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver2' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver2' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 3</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver3' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver3' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 4</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver4' placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver4' value="" placeholder="Not Set" /></td>
                                         </tr>
                                         @endif
                                     </tbody>
