@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::view('employee-list', 'employee-list')->name('employee-list');
-    Route::get('/set-roster', function () {
+    Route::get('/view-set-roster', function () {
         $roster = DB::select("
             select * from rosters 
             where roster_date = ( 
@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         return view('set-roster', ['roster' => $roster])
         ->with('date', $date);
-    })->name('set-roster');
+    })->name('view-set-roster');
     Route::get('/view-roster', function(){
 
         return view('view-roster');
