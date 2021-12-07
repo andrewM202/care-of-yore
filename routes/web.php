@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 // Model for roles
 use App\Models\Roles;
+// Model for roster
+use App\Models\Roster;
 // Get input from requests
 use Illuminate\Http\Request;
 
@@ -41,7 +43,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('', 'welcome')->name('welcome');
     Route::get('/roles', function () {
         $roles = DB::select('
-            select * from roles
+            select * from roles;
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
@@ -51,8 +53,152 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::view('employee-list', 'employee-list')->name('employee-list');
-    Route::view('new-roster', 'new-roster')->name('new-roster');
-    Route::view('view-roster', 'view-roster')->name('view-roster');
+    Route::post('/set-roster', function (Request $request) {
+        $date = $request->input('roster_date');
+        $date = strtotime($date);
+        $date = date('Y-m-d 00:00:00', $date);
+        // $date = date('m/d/Y', $date);
+        $date = ['date' => $date];
+        $supervisor = $request->input('supervisor'); // null
+        // Update roster 
+        $roster = DB::select("
+            select * from rosters
+            where roster_date = '{$date['date']}'
+        ");
+        // If the array has length 0 there is nothing there, 
+        // insert new into rosters table
+        if(count($roster) === 0) {
+            $values = array_values($request->input());
+            for($i=2; $i<count($request->input()); $i++) {
+                $roster = new Roster;
+                $roster->roster_date = $date['date'];
+                switch($i) {
+                    case $i === 2:
+                        $roster->role = 'Supervisor';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                    case $i === 3:
+                        $roster->role = 'Doctor';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                    case $i === 4:
+                        $roster->role = 'Caregiver 1';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                    case $i === 5:
+                        $roster->role = 'Caregiver 2';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                    case $i === 6:
+                        $roster->role = 'Caregiver 3';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                    case $i === 7:
+                        $roster->role = 'Caregiver 4';
+                        $roster->personnel_name = $values[$i];
+                        break;
+                }
+                $roster->save();
+            } 
+        } else {
+            $values = array_values($request->input());
+            for($i=2; $i<count($request->input()); $i++) {
+                switch($i) {
+                    case $i === 2:
+                        $role = 'Supervisor';
+                        $personnel_name = $values[$i];
+                        break;
+                    case $i === 3:
+                        $role = 'Doctor';
+                        $personnel_name = $values[$i];
+                        break;
+                    case $i === 4:
+                        $role = 'Caregiver 1';
+                        $personnel_name = $values[$i];
+                        break;
+                    case $i === 5:
+                        $role = 'Caregiver 2';
+                        $personnel_name = $values[$i];
+                        break;
+                    case $i === 6:
+                        $role = 'Caregiver 3';
+                        $personnel_name = $values[$i];
+                        break;
+                    case $i === 7:
+                        $role = 'Caregiver 4';
+                        $personnel_name = $values[$i];
+                        break;
+                }
+                DB::update("
+                    update rosters
+                    set personnel_name = '{$personnel_name}'
+                    where role = '{$role}'
+                    and roster_date = '{$date['date']}'
+                ");
+            }
+        }
+        // Roster to return
+        $roster = DB::select("
+            select * from rosters
+            where roster_date = '{$date['date']}'
+        ");
+        return view('set-roster', ['roster' =>$roster])
+        ->with('date', $date);
+    })->name('set-roster');
+    Route::get('/get-roster/', function(Request $request) { 
+        $date = $request->input('roster_date');
+        $date = strtotime($date);
+        $date = date('Y-m-d 00:00:00', $date);
+        $date = ['date' => $date];
+        $roster = DB::select("
+            select * from rosters
+            where roster_date = '{$date['date']}'
+        ");
+        $return = (int)$request->input('is-view-roster');
+        if ($return === 1) {
+            return view('view-roster', ['roster' =>$roster])
+            ->with('date', $date);
+        } else {
+            return view('set-roster', ['roster' =>$roster])
+            ->with('date', $date);
+        }
+    })->name('get-roster');
+    Route::get('/view-set-roster', function () {
+        $roster = DB::select("
+            select * from rosters 
+            where roster_date = ( 
+                select roster_date from rosters 
+                order by roster_date desc
+                limit 1 
+            )
+        ");
+        $date = DB::select("
+            select roster_date from rosters
+            order by roster_date desc
+            limit 1
+        ");
+        $date = (array)array_values($date)[0];
+        return view('set-roster', ['roster' => $roster])
+        ->with('date', $date);
+    })->name('view-set-roster');
+    Route::get('/view-roster', function(){
+        $roster = DB::select("
+            select * from rosters 
+            where roster_date = ( 
+                select roster_date from rosters 
+                order by roster_date desc
+                limit 1 
+            )
+        ");
+        $date = DB::select("
+            select roster_date from rosters
+            order by roster_date desc
+            limit 1
+        ");
+        $date = (array)array_values($date)[0];
+        return view('view-roster', ['roster' => $roster])
+        ->with('date', $date);
+    })->name('view-roster');
     Route::view('admin-report', 'admin-report')->name('admin-report');
 });
 
