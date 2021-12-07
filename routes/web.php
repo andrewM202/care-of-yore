@@ -154,8 +154,14 @@ Route::group(['middleware' => ['auth']], function () {
             select * from rosters
             where roster_date = '{$date['date']}'
         ");
-        return view('set-roster', ['roster' =>$roster])
-        ->with('date', $date);
+        $return = (int)$request->input('is-view-roster');
+        if ($return === 1) {
+            return view('view-roster', ['roster' =>$roster])
+            ->with('date', $date);
+        } else {
+            return view('set-roster', ['roster' =>$roster])
+            ->with('date', $date);
+        }
     })->name('get-roster');
     Route::get('/view-set-roster', function () {
         $roster = DB::select("
@@ -176,8 +182,22 @@ Route::group(['middleware' => ['auth']], function () {
         ->with('date', $date);
     })->name('view-set-roster');
     Route::get('/view-roster', function(){
-
-        return view('view-roster');
+        $roster = DB::select("
+            select * from rosters 
+            where roster_date = ( 
+                select roster_date from rosters 
+                order by roster_date desc
+                limit 1 
+            )
+        ");
+        $date = DB::select("
+            select roster_date from rosters
+            order by roster_date desc
+            limit 1
+        ");
+        $date = (array)array_values($date)[0];
+        return view('view-roster', ['roster' => $roster])
+        ->with('date', $date);
     })->name('view-roster');
     Route::view('admin-report', 'admin-report')->name('admin-report');
 });

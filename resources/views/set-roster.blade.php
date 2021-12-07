@@ -16,6 +16,7 @@
                                     <div id='roleCreation' class='flex flex-col max-w-sm'>
                                         <label for='newRole'>Roster Date</label>
                                         <x-input type='date' name='roster_date'/>
+                                        <x-input type='hidden' name='is-view-roster' value=0 />
                                     </div>
                                     <div class='mt-5'>
                                         <x-button type="submit">Search</x-button>
@@ -32,7 +33,7 @@
                                 @endempty
                                 @foreach($date as $date)
                                 <x-input type='hidden' name="roster_date" value="{{ $date }}" />
-                                <h1 class="mb-1.5 text-center text-xl">
+                                <h1 class="mb-1.5 text-center text-2xl">
                                     <?php 
                                         $date = strtotime($date); 
                                         echo date('m/d/Y', $date);
