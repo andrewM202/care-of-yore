@@ -38,14 +38,27 @@
                                 <x-button type='submit' class='mt-5'>
                                     {{ __('Search') }}</x-button>
                             </form>
-                            <form method="POST" class='m-10'>
+                            <form method="POST" class='m-10' action='{{ route("update-patient-info") }}'>
+                                @csrf
+                                @if(isset($patient[0]))
+                                    <input type='hidden' name='patientID' value='{{ $patient[0]->id }}'>
+                                @endif
                                 <div id='addPatientInfo' class='flex flex-row'>
-                                    <div id='fillablePatientInfo' class='flex flex-col'>
-                                        <label for='patientGroup' class='mt-5'>Group</label>
-                                        <input type='number' placeholder='3' min="0" name='patientGroup'>
-                                        <label for='admissionDate' class='mt-5'>Admission Date</label>
-                                        <input type='date' placeholder='3' min="0" name='admissionDate' class=''>
-                                    </div>
+                                    @if (isset($patient[0]))
+                                        <div id='fillablePatientInfo' class='flex flex-col'>
+                                            <label for='patientGroup' class='mt-5'>Group</label>
+                                            <input type='number' placeholder='3' min="0" name='patientGroup'>
+                                            <label for='admissionDate' class='mt-5'>Admission Date</label>
+                                            <input type='date' placeholder='3' min="0" name='admissionDate' class=''>
+                                        </div>
+                                    @else
+                                        <div id='fillablePatientInfo' class='flex flex-col'>
+                                            <label for='patientGroup' class='mt-5'>Group</label>
+                                            <input type='number' placeholder='3' min="0" name='patientGroup' readonly>
+                                            <label for='admissionDate' class='mt-5'>Admission Date</label>
+                                            <input type='date' placeholder='3' min="0" name='admissionDate' class='' readonly>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class='mt-5'>
                                     <x-button type="submit">Ok</x-button>
@@ -56,7 +69,6 @@
                     </div>
                 </div>
             </div>
-
-
+        </div>
     </body>
 </x-app-layout>

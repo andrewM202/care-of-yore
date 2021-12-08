@@ -28,6 +28,8 @@ class User extends Authenticatable
         'family_code',
         'emergency_contact',
         'emergency_contact_relation',
+        'admission_date',
+        'group',
     ];
 
     /**
