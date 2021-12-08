@@ -25,7 +25,7 @@
                             </div>
                                 @empty($date)
                                 <x-input type='hidden' name="roster_date" value='<?php echo date("m/d/Y"); ?>' />
-                                <h1 class="mb-1.5 text-center text-xl">
+                                <h1 class="mb-1.5 text-center text-2xl">
                                     <?php echo date("m/d/Y") ?>
                                 </h1>
                                 @endempty
@@ -46,49 +46,84 @@
                                         </tr>
                                     </thead>
                                     <tbody class='bg-white'>
-                                        @foreach($roster as $rostee)
-                                            @if(isset($rostee->roster_date) and isset($rostee->personnel_name))
-                                            <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
-                                                @if($rostee->personnel_name !== '')
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
-                                                @else
-                                                <td class="px-4 py-3 border">Not Set</td>
-                                                @endif
-                                            </tr>
-                                            @else
-                                            <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
-                                                <td class="px-4 py-3 border">Not Set</td>
-                                            </tr>
-                                            @endif
-                                        @endforeach
-                                        @empty($roster)
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Supervisor</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Supervisor')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Doctor</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Doctor')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 1</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Caregiver1')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 2</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Caregiver2')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 3</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Caregiver3')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 4</td>
+                                            @php $found = 0 @endphp
+                                            @foreach($roster as $rostee)
+                                                @if($rostee->role == 'Caregiver4')
+                                                @php $found = 1 @endphp
+                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                @endif
+                                            @endforeach
+                                            @if($found == 0)
                                             <td class="px-4 py-3 border">Not Set</td>
+                                            @endif
                                         </tr>
-                                        @endif
                                     </tbody>
                                 </table>
                         <!-- </div> -->

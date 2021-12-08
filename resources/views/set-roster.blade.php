@@ -48,52 +48,126 @@
                                         </tr>
                                     </thead>
                                     <tbody class='bg-white'>
-                                        @foreach($roster as $rostee)
-                                            @if(isset($rostee->roster_date) and isset($rostee->personnel_name))
-                                            <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
-                                                @if($rostee->personnel_name !== '')
-                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->role }}' 
-                                                value="{{ $rostee->personnel_name }}" /></td>
-                                                @else
-                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='{{ $rostee->role }}' 
-                                                value="" placeholder="Not Set" /></td>
-                                                @endif
-                                            </tr>
-                                            @else
-                                            <tr class='text-gray-700 font-semibold'>
-                                                <td class="px-4 py-3 border">{{ $rostee->role }}</td>
-                                                <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' 
-                                                value="" placeholder="Not Set" /></td>
-                                            </tr>
-                                            @endif
-                                        @endforeach
-                                        @empty($roster)
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Supervisor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='supervisor' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Supervisor' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee) 
+                                                        @if($rostee->role == 'Supervisor')
+                                                        @php $found = 1 @endphp
+                                                        <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="None" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($supervisors as $supervisor)
+                                                    <option value="{{ $supervisor->name }}">{{ $supervisor->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Doctor</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='doctor' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Doctor' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee)
+                                                        @if($rostee->role == 'Doctor')
+                                                        @php $found = 1 @endphp
+                                                        <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="None" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($doctors as $doctor)
+                                                    <option value="{{ $doctor->name }}">{{ $doctor->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 1</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver1' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Caregiver1' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee)
+                                                        @if($rostee->role == 'Caregiver1')
+                                                        @php $found = 1 @endphp
+                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($caregivers as $caregiver)
+                                                    <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 2</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver2' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Caregiver2' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee)
+                                                        @if($rostee->role == 'Caregiver2')
+                                                        @php $found = 1 @endphp
+                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($caregivers as $caregiver)
+                                                    <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 3</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver3' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Caregiver3' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee)
+                                                        @if($rostee->role == 'Caregiver3')
+                                                        @php $found = 1 @endphp
+                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($caregivers as $caregiver)
+                                                    <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
                                         <tr class='text-gray-700 font-semibold'>
                                             <td class="px-4 py-3 border">Caregiver 4</td>
-                                            <td class="px-4 py-3 border"><x-input class="w-full" type='text' name='caregiver4' value="" placeholder="Not Set" /></td>
+                                            <td class="px-4 py-3 border">
+                                                <select class='rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full mt-1' name='Caregiver4' id='role' onchange="disableDisable()">
+                                                    @php $found = 0 @endphp
+                                                    @foreach($roster as $rostee)
+                                                        @if($rostee->role == 'Caregiver4')
+                                                        @php $found = 1 @endphp
+                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                        @endif
+                                                    @endforeach
+                                                    @if($found == 0)
+                                                        <option value="" disabled selected hidden>Not Set</option>
+                                                    @endif
+                                                    @foreach($caregivers as $caregiver)
+                                                    <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                         </tr>
-                                        @endif
                                     </tbody>
                                 </table>
                                 <div class="flex justify-center mt-4">
