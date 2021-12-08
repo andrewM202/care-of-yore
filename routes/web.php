@@ -54,10 +54,16 @@ Route::group(['middleware' => ['auth']], function () {
         //var_dump($patient_name);
         return view('doctor-appointment');
     })->name('doctor-appointment');
-    Route::post('/doctor-appointment', function (Request $request) {
+
+    Route::post('/appointment-patient-id', function(Request $request) {
+        $patient_id = $request->input('patient_id');
+        return view('doctor-appointment', ['patient_id' => $patient_id]);
+    })->name('appointment-patient-id');
+
+    Route::post('/create-doctor-appointment', function (Request $request) {
         $patient_id = $request->input('patient_id');
         $appointment_date = $request->input('appointment_date');
-        var_dump($appointment_date);
+        $doctor = $request->input('doctors');
         $patient_name = DB::select('
             select name from users
             where id = '.$patient_id.'
@@ -70,7 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
         return view('doctor-appointment', ['patient_name' => $patient_name])
         ->with('patient_id', $patient_id)
         ->with('doctors', $doctors);
-    })->name('doctor-appointment');
+    })->name('create-doctor-appointment');
+
     Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
     Route::view('additional', 'additional')->name('additional');
