@@ -76,7 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('patients', 'patients')->name('patients');
 
     Route::view('additional', 'additional')->name('additional');
-    Route::post('/get-patient-name', function (Request $request) {
+    Route::post('/additional', function (Request $request) {
         $id = $request->input('patientID');
         $patient = DB::select('
             select * from users
