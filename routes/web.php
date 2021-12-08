@@ -74,8 +74,17 @@ Route::group(['middleware' => ['auth']], function () {
         return view('roles', ['roles' => $roles]);
     })->name('roles');
     Route::view('patients', 'patients')->name('patients');
+
     Route::view('additional', 'additional')->name('additional');
-    
+    Route::post('/get-patient-name', function (Request $request) {
+        $id = $request->input('patientID');
+        $patient = DB::select('
+            select * from users
+            where id = '.$id.' AND role = 3;
+        ');
+        return view('additional', ['patient' => $patient]);
+    })->name('get-patient-name');
+
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::view('employee-list', 'employee-list')->name('employee-list');
