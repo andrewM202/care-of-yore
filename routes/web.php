@@ -118,7 +118,6 @@ Route::group(['middleware' => ['auth']], function () {
                 select * from rosters
                 where roster_date = '{$date['date']}'
                 and role = '{$keys[$i]}'
-                and personnel_name = '{$values[$i]}'
             ");
             $roster = new Roster;
             $roster->roster_date = $date['date'];
@@ -155,8 +154,8 @@ Route::group(['middleware' => ['auth']], function () {
             } else {
                 DB::update("
                     update rosters
-                    set personnel_name = '{$personnel_name}'
-                    where role = '{$role}'
+                    set personnel_name = '{$values[$i]}'
+                    where role = '{$keys[$i]}'
                     and roster_date = '{$date['date']}'
                 ");
             }

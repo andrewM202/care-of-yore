@@ -56,12 +56,17 @@
                                                     @foreach($roster as $rostee) 
                                                         @if($rostee->role == 'Supervisor')
                                                         @php $found = 1 @endphp
-                                                        <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="None" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($supervisors as $supervisor)
                                                     <option value="{{ $supervisor->name }}">{{ $supervisor->name }}</option>
                                                     @endforeach
@@ -76,12 +81,17 @@
                                                     @foreach($roster as $rostee)
                                                         @if($rostee->role == 'Doctor')
                                                         @php $found = 1 @endphp
-                                                        <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="None" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($doctors as $doctor)
                                                     <option value="{{ $doctor->name }}">{{ $doctor->name }}</option>
                                                     @endforeach
@@ -96,12 +106,17 @@
                                                     @foreach($roster as $rostee)
                                                         @if($rostee->role == 'Caregiver1')
                                                         @php $found = 1 @endphp
-                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($caregivers as $caregiver)
                                                     <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
                                                     @endforeach
@@ -116,12 +131,17 @@
                                                     @foreach($roster as $rostee)
                                                         @if($rostee->role == 'Caregiver2')
                                                         @php $found = 1 @endphp
-                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($caregivers as $caregiver)
                                                     <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
                                                     @endforeach
@@ -136,12 +156,17 @@
                                                     @foreach($roster as $rostee)
                                                         @if($rostee->role == 'Caregiver3')
                                                         @php $found = 1 @endphp
-                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($caregivers as $caregiver)
                                                     <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
                                                     @endforeach
@@ -155,13 +180,18 @@
                                                     @php $found = 0 @endphp
                                                     @foreach($roster as $rostee)
                                                         @if($rostee->role == 'Caregiver4')
-                                                        @php $found = 1 @endphp
-                                                        <option value="" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @php $found = 1 @endphp
+                                                            @if($rostee->personnel_name == '')
+                                                            <option value="None" disabled selected hidden>Not Set</option>
+                                                            @else
+                                                            <option value="None" disabled selected hidden>{{ $rostee->personnel_name }}</option>
+                                                            @endif
                                                         @endif
                                                     @endforeach
                                                     @if($found == 0)
                                                         <option value="" disabled selected hidden>Not Set</option>
                                                     @endif
+                                                    <option value="">Not Set</option>
                                                     @foreach($caregivers as $caregiver)
                                                     <option value="{{ $caregiver->name }}">{{ $caregiver->name }}</option>
                                                     @endforeach

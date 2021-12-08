@@ -52,7 +52,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Supervisor')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
@@ -65,7 +69,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Doctor')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
@@ -78,7 +86,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Caregiver1')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
@@ -91,7 +103,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Caregiver2')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
@@ -104,7 +120,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Caregiver3')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
@@ -117,7 +137,11 @@
                                             @foreach($roster as $rostee)
                                                 @if($rostee->role == 'Caregiver4')
                                                 @php $found = 1 @endphp
-                                                <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @if($rostee->personnel_name == '')
+                                                    <td class="px-4 py-3 border">Not Set</td>
+                                                    @else
+                                                    <td class="px-4 py-3 border">{{ $rostee->personnel_name }}</td>
+                                                    @endif
                                                 @endif
                                             @endforeach
                                             @if($found == 0)
