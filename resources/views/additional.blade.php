@@ -47,9 +47,9 @@
                                     @if (isset($patient[0]))
                                         <div id='fillablePatientInfo' class='flex flex-col'>
                                             <label for='patientGroup' class='mt-5'>Group</label>
-                                            <input type='number' placeholder='3' min="0" name='patientGroup'>
+                                            <input type='number' placeholder='3' min="0" name='patientGroup' value='{{ $patient[0]->group }}'>
                                             <label for='admissionDate' class='mt-5'>Admission Date</label>
-                                            <input type='date' placeholder='3' min="0" name='admissionDate' class=''>
+                                            <input type='date' placeholder='3' min="0" name='admissionDate' value='{{ $patient[0]->admission_date }}'>
                                         </div>
                                     @else
                                         <div id='fillablePatientInfo' class='flex flex-col'>
