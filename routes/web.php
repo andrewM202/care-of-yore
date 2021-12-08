@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 // Model for roles
 use App\Models\Roles;
-// Model for doctor appointments
+// Model for users
 use App\Models\User;
+// Model for appointments
+use App\Models\Appointments;
 // Get input from requests
 use Illuminate\Http\Request;
 
@@ -54,12 +56,20 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('doctor-appointment');
     Route::post('/doctor-appointment', function (Request $request) {
         $patient_id = $request->input('patient_id');
+        $appointment_date = $request->input('appointment_date');
+        var_dump($appointment_date);
         $patient_name = DB::select('
             select name from users
             where id = '.$patient_id.'
         ');
         $patient_name = (array)array_values($patient_name)[0];
-        return view('doctor-appointment', ['patient_name' => $patient_name]);
+        $doctors = DB::select('
+            select * from users
+            where role = 4
+        ');
+        return view('doctor-appointment', ['patient_name' => $patient_name])
+        ->with('patient_id', $patient_id)
+        ->with('doctors', $doctors);
     })->name('doctor-appointment');
     Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
