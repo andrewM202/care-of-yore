@@ -10,26 +10,31 @@
                         {{ __('Additional Information of Patient') }}
                     </h2>
                 </x-slot>
-                        <form method="POST" class='m-10'>
-                            <div id='addPatientInfo' class='flex flex-row'>
-                                <div id='fillablePatientInfo' class='flex flex-col'>
-                                    <label for='patientID'>Patient ID</label>
-                                    <input type='number' placeholder='005' min='0' name='patientID' class=''>
-                                    <label for='patientGroup' class='mt-5'>Group</label>
-                                    <input type='number' placeholder='3' min="0" name='patientGroup'>
-                                    <label for='admissionDate' class='mt-5'>Admission Date</label>
-                                    <input type='date' placeholder='3' min="0" name='admissionDate' class=''>
-                                </div>
-                                <div id='readOnlyInfo' class='flex flex-col ml-10'>
-                                    <label for='patientName'>Patient Name</label>
-                                    <input readonly type='text' placeholder='John Smith' name='patientName' class=''>
-                                </div>
+                    <form method="post" action="{{ route('get-patient-name') }}">
+                        @csrf
+                        <div>
+                            <label for='patientID'>Patient ID</label>
+                            <input type='number' placeholder='005' min='0' name='patientID' class=''>
+                        </div>
+                        <div id='readOnlyInfo' class='flex flex-col ml-10'>
+                            <label for='patientName'>Patient Name</label>
+                            <input readonly type='text' placeholder='John Smith' name='patientName' class=''>
+                        </div>
+                    </form>
+                    <form method="POST" class='m-10'>
+                        <div id='addPatientInfo' class='flex flex-row'>
+                            <div id='fillablePatientInfo' class='flex flex-col'>
+                                <label for='patientGroup' class='mt-5'>Group</label>
+                                <input type='number' placeholder='3' min="0" name='patientGroup'>
+                                <label for='admissionDate' class='mt-5'>Admission Date</label>
+                                <input type='date' placeholder='3' min="0" name='admissionDate' class=''>
                             </div>
-                            <div class='mt-5'>
-                                <x-button type="submit">Ok</x-button>
-                                <x-button type="reset">Cancel</x-button>
-                            </div>
-                        </form>
+                        </div>
+                        <div class='mt-5'>
+                            <x-button type="submit">Ok</x-button>
+                            <x-button type="reset">Cancel</x-button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
