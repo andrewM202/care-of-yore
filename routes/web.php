@@ -13,8 +13,6 @@ use App\Models\Appointments;
 use App\Models\Roster;
 // Get input from requests
 use Illuminate\Http\Request;
-// Model for roles
-use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
