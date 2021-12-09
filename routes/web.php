@@ -73,8 +73,18 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
-    Route::view('patients', 'patients')->name('patients');
+    Route::get('patients', function () {
+        $patients = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name,
+            u.id, date_of_birth, emergency_contact, emergency_contact_relation,
+            admission_date
+            from users u
+            join roles r on u.role = r.role_id
+            where role = 5
+        ");
 
+        return view('patients', ['patients' => $patients]);
+    })->name('patients');
     Route::view('additional', 'additional')->name('additional');
     Route::post('/get-patient-name', function (Request $request) {
         $id = $request->input('patientID');
@@ -92,7 +102,6 @@ Route::group(['middleware' => ['auth']], function () {
         $patient->save();
         return view('additional');
     })->name('update-patient-info');
-
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::POST('/employee-new-salary', function (Request $request) {
