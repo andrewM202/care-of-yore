@@ -30,6 +30,8 @@ class User extends Authenticatable
         'emergency_contact_relation',
         'admission_date',
         'group',
+        'salary',
+        'approval',
     ];
 
     /**

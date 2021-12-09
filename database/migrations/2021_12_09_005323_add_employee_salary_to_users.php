@@ -14,7 +14,7 @@ class AddEmployeeSalaryToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('salary');
+            $table->integer('salary')->nullable();
         });
     }
 
