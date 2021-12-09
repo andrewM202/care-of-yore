@@ -95,7 +95,82 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
-    Route::view('employee-list', 'employee-list')->name('employee-list');
+    Route::POST('/employee-new-salary', function (Request $request) {
+        $employee_id = $request->input('employee_id');
+        $new_salary = $request->input('new_salary');
+
+        DB::update("
+            update users
+            set salary = '{$new_salary}'
+            where id = '{$employee_id}'
+            and role in(1, 2, 4, 5)
+        ");
+
+        return redirect('/employee-list');
+    })->name('employee-new-salary');
+    Route::post('/employee-search', function (Request $request) {
+        $employee_id = $request->input('employee_id');
+        $employee_name = $request->input('employee_name');
+        $employee_roll = $request->input('employee_roll');
+        $employee_salary = $request->input('employee_salary');
+        
+        if($employee_salary === NULL) {
+            if($employee_id === NULL) { 
+                $employees = DB::select("
+                    select concat(u.first_name,' ',u.last_name) as name,
+                    u.id, r.role_name as role, u.salary
+                    from users u
+                    join roles r on u.role = r.role_id
+                    where concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
+                    and r.role_name like '%{$employee_roll}%'
+                ");
+            } else {
+                $employees = DB::select("
+                    select concat(u.first_name,' ',u.last_name) as name,
+                    u.id, r.role_name as role, u.salary
+                    from users u
+                    join roles r on u.role = r.role_id
+                    where u.id = '{$employee_id}'
+                    and concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
+                    and r.role_name like '%{$employee_roll}%'
+                ");
+            }
+        } else {
+            if($employee_id === NULL) { 
+                $employees = DB::select("
+                    select concat(u.first_name,' ',u.last_name) as name,
+                    u.id, r.role_name as role, u.salary
+                    from users u
+                    join roles r on u.role = r.role_id
+                    where concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
+                    and r.role_name like '%{$employee_roll}%'
+                    and u.salary = '{$employee_salary}'
+                ");
+            } else {
+                $employees = DB::select("
+                    select concat(u.first_name,' ',u.last_name) as name,
+                    u.id, r.role_name as role, u.salary
+                    from users u
+                    join roles r on u.role = r.role_id
+                    where u.id = '{$employee_id}'
+                    and concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
+                    and r.role_name like '%{$employee_roll}%'
+                    and u.salary = '{$employee_salary}'
+                ");
+            }
+        }
+        return view('employee-list', ['employees' => $employees]);
+    })->name('employee-search');
+    Route::get('/employee-list', function () {
+        $employees = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name,
+            u.id, r.role_name as role, u.salary
+            from users u
+            join roles r on u.role = r.role_id
+            where role in(1, 2, 4, 5)
+        ");
+        return view('employee-list', ['employees' => $employees]);
+    })->name('employee-list');
     Route::post('/set-roster', function (Request $request) {
         $date = $request->input('roster_date');
         $date = strtotime($date);
