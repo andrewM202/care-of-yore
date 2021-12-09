@@ -36,17 +36,17 @@
                                         <x-button type="submit">Search</x-button>
                                     </div>
                                 </form>
-                                <form method="GET" class='m-10' action={{ route('get-roster') }}>
+                                <form method="GET" class='m-10' action={{ route('employee-new-salary') }}>
                                     @csrf 
                                     <h1 class="ml-2 text-2xl mb-4">Set New Salary</h1>
                                     <div class="flex flex-col md:flex-row">
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>ID</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='employee_id'>ID</label>
+                                          <x-input type='text' name='employee_id'/>
                                        </div>
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>New Salary</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='new_salary'>New Salary</label>
+                                          <x-input type='text' name='new_salary'/>
                                        </div>
                                     </div>
                                     <div class='mt-5'>

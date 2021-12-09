@@ -96,7 +96,17 @@ Route::group(['middleware' => ['auth']], function () {
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::get('/employee-new-salary', function (Request $request) {
-        return view('employee-list');
+        $employee_id = $request->input('employee_id');
+        $new_salary = $request->input('new_salary');
+
+        DB::update("
+            update users
+            set salary = '{$new_salary}'
+            where id = '{$employee_id}'
+            and role in(1, 2, 4, 5)
+        ");
+
+        return redirect('/employee-list');
     })->name('employee-new-salary');
     Route::get('/employee-search', function (Request $request) {
         return view('employee-list');
