@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
             admission_date
             from users u
             join roles r on u.role = r.role_id
-            where role = 5
+            where role = 3
         ");
 
         return view('patients', ['patients' => $patients]);
