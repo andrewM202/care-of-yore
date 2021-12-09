@@ -13,9 +13,7 @@ class appointments extends Model
     protected $fillable = [
         'appointment_date',
         'doctor_id',
-        'doctor_name',
         'patient_id',
-        'patient_name'
     ];
 
     public $timestamps = false;

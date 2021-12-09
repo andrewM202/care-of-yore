@@ -57,7 +57,7 @@
                         </x-dropdown-link>
 
                         <x-dropdown-link :href='route("doctor-appointment")'>
-                            {{ __('Appointment')}}
+                            {{ __('Create Appointment')}}
                         </x-dropdown-link>
 
                         <x-dropdown-link :href='route("employee-list")'>

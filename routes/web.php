@@ -55,12 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
         return view('doctor-appointment');
     })->name('doctor-appointment');
 
-    Route::post('/appointment-patient-id', function(Request $request) {
-        $patient_id = $request->input('patient_id');
-        return view('doctor-appointment', ['patient_id' => $patient_id]);
-    })->name('appointment-patient-id');
-
-    Route::post('/create-doctor-appointment', function (Request $request) {
+    Route::post('/fill-appointment-form', function (Request $request) {
         $patient_id = $request->input('patient_id');
         $appointment_date = $request->input('appointment_date');
         $doctor = $request->input('doctors');
@@ -76,6 +71,20 @@ Route::group(['middleware' => ['auth']], function () {
         return view('doctor-appointment', ['patient_name' => $patient_name])
         ->with('patient_id', $patient_id)
         ->with('doctors', $doctors);
+    })->name('fill-appointment-form');
+
+    Route::post('/create-doctor-appointment', function (Request $request) {
+        $appointment_date = $request->input('appointment_date');
+        $patient_id = $request->input('patient_id');
+        $doctor_id = DB::select('
+            select id from users
+            where role = 4
+        ');
+        $doctor_id = (array)array_values($doctor_id)[0];
+
+        DB::insert(
+            "insert into appointments (appointment_date, patient_id, doctor_id, ) values ('{$appointment_date}', '{$patient_id}', '{$doctor_id['id']}')");
+
     })->name('create-doctor-appointment');
 
     Route::view('approval', 'approval')->name('approval');

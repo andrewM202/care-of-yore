@@ -49,7 +49,7 @@
             </div>
         </form>
         @else
-        <form method='post' action="{{ route('appointment-patient-id') }}">
+        <form method='post' action="{{ route('fill-appointment-form') }}">
             @csrf
 
             <div class="flex justify-center flex-col">
