@@ -11,32 +11,33 @@
                                 </h2>
                             </x-slot>
                             <div class="flex-col">
-                                <form method="GET" class='m-10' action={{ route('get-roster') }}>
+                                <form method="POST" class='m-10' action={{ route('employee-search') }}>
                                     @csrf 
                                     <h1 class="ml-2 text-2xl mb-4">Search For Employee</h1>
                                     <div class="flex flex-col md:flex-row">
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>ID</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='employee_id'>ID</label>
+                                          <x-input type='text' name='employee_id'/>
                                        </div>
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>Name</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='employee_name'>Name</label>
+                                          <x-input type='text' name='employee_name'/>
                                        </div>
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>Roll</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='employee_roll'>Roll</label>
+                                          <x-input type='text' name='employee_roll'/>
                                        </div>
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
-                                          <label for='newRole'>Salary</label>
-                                          <x-input type='text' name='roster_date'/>
+                                          <label for='employee_salary'>Salary</label>
+                                          <x-input type='text' name='employee_salary'/>
                                        </div>
                                     </div>
                                     <div class='mt-5'>
                                         <x-button type="submit">Search</x-button>
+                                        <a href="/employee-list" class="ml-4 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Refresh Search</a>
                                     </div>
                                 </form>
-                                <form method="GET" class='m-10' action={{ route('employee-new-salary') }}>
+                                <form method="POST" class='m-10' action={{ route('employee-new-salary') }}>
                                     @csrf 
                                     <h1 class="ml-2 text-2xl mb-4">Set New Salary</h1>
                                     <div class="flex flex-col md:flex-row">
