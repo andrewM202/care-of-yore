@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 // Model for roles
 use App\Models\Roles;
+// Model for users
+use App\Models\User;
+// Model for appointments
+use App\Models\Appointments;
 // Model for roster
 use App\Models\Roster;
 // Get input from requests
@@ -73,6 +77,46 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
+    Route::post('/doctor-appointment', function() {
+        //$patient_name = ['name' => " "];
+        //var_dump($patient_name);
+        return view('doctor-appointment');
+    })->name('doctor-appointment');
+
+    Route::post('/fill-appointment-form', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $appointment_date = $request->input('appointment_date');
+        $doctor = $request->input('doctors');
+        $patient_name = DB::select('
+            select name from users
+            where id = '.$patient_id.'
+        ');
+        $patient_name = (array)array_values($patient_name)[0];
+        $doctors = DB::select('
+            select * from users
+            where role = 4
+        ');
+        return view('doctor-appointment', ['patient_name' => $patient_name])
+        ->with('patient_id', $patient_id)
+        ->with('doctors', $doctors);
+    })->name('fill-appointment-form');
+
+    Route::post('/create-doctor-appointment', function (Request $request) {
+        $appointment_date = $request->input('appointment_date');
+        $patient_id = $request->input('patient_id');
+        $doctor_id = DB::select('
+            select id from users
+            where role = 4
+        ');
+        $doctor_id = (array)array_values($doctor_id)[0];
+
+        DB::insert(
+            "insert into appointments (appointment_date, patient_id, doctor_id, ) values ('{$appointment_date}', '{$patient_id}', '{$doctor_id['id']}')");
+
+    })->name('create-doctor-appointment');
+
+    Route::view('approval', 'approval')->name('approval');
+    Route::view('patients', 'patients')->name('patients');
     Route::post('/patient-search', function (Request $request) {
         $patient_id = $request->input('patient_id');
         $patient_name = $request->input('patient_name');
