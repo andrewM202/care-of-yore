@@ -1,5 +1,12 @@
 # README
 
+If database trouble, run these commands one by one to see if it works:
+- sail artisan route:clear
+- sail artisan cache:clear 
+- sail artisan config:clear
+- sail artisan migrate:refresh
+- sail artisan migrate:fresh
+
 - Adding a model and migration
 1. Make model and migration
     - sail artisan make:model -m (model_name) 

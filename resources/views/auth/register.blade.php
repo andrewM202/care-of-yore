@@ -50,13 +50,6 @@
                     <x-input id='last_name' class='block mt-1 w-full' type='text' name='last_name' :value='old("last_name")' required />
                 </div>
 
-                <!-- Name -->
-                <div>
-                    <x-label for="name" :value="__('Name')" />
-
-                    <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required />
-                </div>
-
                 <!-- Email Address -->
                 <div>
                     <x-label for="email" :value="__('Email')" />
@@ -77,6 +70,9 @@
                     placeholder='123-456-7890'
                     required />
                 </div>
+
+                <!--Empty div to take up space-->
+                <div></div>
 
                 <!-- Password -->
                 <div>

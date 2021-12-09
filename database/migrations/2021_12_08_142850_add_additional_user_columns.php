@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUserTable extends Migration
+class AddAdditionalUserColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,8 @@ class UpdateUserTable extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->smallInteger('role');
-            $table->string('first-name');
-            $table->string('last-name');
-            $table->string('phone', 12)->unique();
-            $table->date('date-of-birth');
-            $table->string('family-code', 6);
-            $table->string('emergency-contact');
-            $table->string('emergency-contact-relation');
+            $table->smallInteger('group')->nullable();
+            $table->date('admission_date')->nullable();
         });
     }
 
@@ -32,6 +26,9 @@ class UpdateUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function ($table) {
+            $table->dropColumn('group');
+            $table->dropColumn('admission_date');
+        });
     }
 }

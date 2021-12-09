@@ -21,7 +21,6 @@ class User extends Authenticatable
         'role',
         'first_name',
         'last_name',
-        'name',
         'email',
         'phone',
         'password',
@@ -29,6 +28,8 @@ class User extends Authenticatable
         'family_code',
         'emergency_contact',
         'emergency_contact_relation',
+        'admission_date',
+        'group',
     ];
 
     /**
