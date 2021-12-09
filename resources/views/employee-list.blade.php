@@ -7,12 +7,13 @@
                         <!-- <div class='flex flex-row justify-center'> -->
                             <x-slot name="header">
                                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                                    {{ __('View Roster') }}
+                                    {{ __('Employee List') }}
                                 </h2>
                             </x-slot>
                             <div class="flex-col">
                                 <form method="GET" class='m-10' action={{ route('get-roster') }}>
                                     @csrf 
+                                    <h1 class="ml-2 text-2xl mb-4">Search For Employee</h1>
                                     <div class="flex flex-col md:flex-row">
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
                                           <label for='newRole'>ID</label>
@@ -37,6 +38,7 @@
                                 </form>
                                 <form method="GET" class='m-10' action={{ route('get-roster') }}>
                                     @csrf 
+                                    <h1 class="ml-2 text-2xl mb-4">Set New Salary</h1>
                                     <div class="flex flex-col md:flex-row">
                                        <div id='roleCreation' class='flex flex-col max-w-sm mx-2'>
                                           <label for='newRole'>ID</label>
@@ -52,13 +54,7 @@
                                     </div>
                                 </form>
                             </div>
-                                <x-input type='hidden' name="roster_date" value='<?php echo date("m/d/Y"); ?>' />
-                                <h1 class="mb-1.5 text-center text-2xl">
-                                    <?php echo date("m/d/Y") ?>
-                                </h1>
-                                <x-input type='hidden' name="roster_date" value="" />
-                                <h1 class="mb-1.5 text-center text-2xl">test
-                                </h1>
+                                <h1 class="mb-1.5 text-center text-2xl">Employees</h1>
                                 <table class='table-auto w-full'>
                                     <thead>
                                         <tr class='text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600'>
@@ -69,12 +65,14 @@
                                         </tr>
                                     </thead>
                                     <tbody class='bg-white'>
+                                       @foreach($employees as $employee)
                                         <tr class='text-gray-700 font-semibold'>
-                                            <td class="px-4 py-3 border">Not Set</td>
-                                            <td class="px-4 py-3 border">Not Set</td>
-                                            <td class="px-4 py-3 border">Not Set</td>
-                                            <td class="px-4 py-3 border">Not Set</td>
+                                             <td class="px-4 py-3 border">{{ $employee->id }}</td>
+                                             <td class="px-4 py-3 border">{{ $employee->name }}</td>
+                                             <td class="px-4 py-3 border">{{ $employee->role }}</td>
+                                             <td class="px-4 py-3 border">{{ $employee->salary }}</td>
                                         </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                         <!-- </div> -->

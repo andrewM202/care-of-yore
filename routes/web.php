@@ -95,7 +95,22 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::view('payment', 'payment')->name('payment');
     Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
-    Route::view('employee-list', 'employee-list')->name('employee-list');
+    Route::get('/employee-new-salary', function (Request $request) {
+        return view('employee-list');
+    })->name('employee-new-salary');
+    Route::get('/employee-search', function (Request $request) {
+        return view('employee-list');
+    })->name('employee-search');
+    Route::get('/employee-list', function () {
+        $employees = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name,
+            u.id, r.role_name as role, u.salary
+            from users u
+            join roles r on u.role = r.role_id
+            where role in(1, 2, 4, 5)
+        ");
+        return view('employee-list', ['employees' => $employees]);
+    })->name('employee-list');
     Route::post('/set-roster', function (Request $request) {
         $date = $request->input('roster_date');
         $date = strtotime($date);
