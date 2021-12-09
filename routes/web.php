@@ -1,18 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 // Added to query database
-use Illuminate\Support\Facades\DB;
-// Model for roles
 use App\Models\Roles;
+// Model for roles
+use App\Models\Roster;
 // Model for users
 use App\Models\User;
 // Model for appointments
-use App\Models\Appointments;
-// Model for roster
-use App\Models\Roster;
-// Get input from requests
 use Illuminate\Http\Request;
+// Model for roster
+use Illuminate\Support\Facades\DB;
+// Get input from requests
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +22,7 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -75,32 +74,68 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
-    Route::post('/doctor-appointment', function() {
-        //$patient_name = ['name' => " "];
-        //var_dump($patient_name);
-        return view('doctor-appointment');
+    Route::get('/doctor-appointment', function () {
+        $appointments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as doctor_name,
+            a.patient_id, a.appointment_date
+            from appointments a
+            join users u
+            on a.doctor_id = u.id
+            limit 50
+        ");
+        return view('doctor-appointment', ['appointments' => $appointments]);
     })->name('doctor-appointment');
+    Route::post('/delete-appointment', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $doctor_name = $request->input('doctor_name');
+        $appointment_date = $request->input('appointment_date');
+        $appointment_date = strtotime($appointment_date);
+        $appointment_date = date('Y-m-d 00:00:00', $appointment_date);
 
+        DB::delete("
+            delete a.*
+            from appointments a
+            join users u on a.doctor_id = u.id
+            where patient_id = '{$patient_id}'
+            and appointment_date = '{$appointment_date}'
+            and concat(u.first_name,' ',u.last_name) = '{$doctor_name}'
+        ");
+
+        return redirect('doctor-appointment');
+    })->name('delete-appointment');
     Route::post('/fill-appointment-form', function (Request $request) {
         $patient_id = $request->input('patient_id');
         $appointment_date = $request->input('appointment_date');
         $doctor = $request->input('doctors');
-        $patient_name = DB::select('
-            select name from users
-            where id = '.$patient_id.'
-        ');
+        $patient_name = DB::select("
+            select concat(first_name,' ',last_name) as name
+            from users
+            where id = '{$patient_id}'
+        ");
         $patient_name = (array)array_values($patient_name)[0];
-        $doctors = DB::select('
-            select * from users
+        $doctors = DB::select("
+            select concat(first_name,' ',last_name) as name,
+            id from users
             where role = 4
-        ');
+        ");
+        $appointments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as doctor_name,
+            a.patient_id, a.appointment_date
+            from appointments a
+            join users u
+            on a.doctor_id = u.id
+            where a.patient_id = '{$patient_id}'
+            limit 50
+        ");
         return view('doctor-appointment', ['patient_name' => $patient_name])
-        ->with('patient_id', $patient_id)
-        ->with('doctors', $doctors);
+            ->with('patient_id', $patient_id)
+            ->with('doctors', $doctors)
+            ->with(['appointments' => $appointments]);
     })->name('fill-appointment-form');
-
     Route::post('/create-doctor-appointment', function (Request $request) {
         $appointment_date = $request->input('appointment_date');
+        $appointment_date = strtotime($appointment_date);
+        $appointment_date = date('Y-m-d 00:00:00', $appointment_date);
         $patient_id = $request->input('patient_id');
         $doctor_id = DB::select('
             select id from users
@@ -108,11 +143,14 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         $doctor_id = (array)array_values($doctor_id)[0];
 
-        DB::insert(
-            "insert into appointments (appointment_date, patient_id, doctor_id, ) values ('{$appointment_date}', '{$patient_id}', '{$doctor_id['id']}')");
+        DB::insert("
+            insert into appointments
+            (appointment_date, patient_id, doctor_id)
+            values ('{$appointment_date}', '{$patient_id}', '{$doctor_id['id']}')
+        ");
 
+        return redirect('/doctor-appointment');
     })->name('create-doctor-appointment');
-
     Route::view('patients', 'patients')->name('patients');
     Route::post('/patient-search', function (Request $request) {
         $patient_id = $request->input('patient_id');
@@ -160,7 +198,7 @@ Route::group(['middleware' => ['auth']], function () {
         $id = $request->input('patientID');
         $patient = DB::select('
             select * from users
-            where id = '.$id.' AND role = 3;
+            where id = ' . $id . ' AND role = 3;
         ');
         return view('additional', ['patient' => $patient]);
     })->name('get-patient-name');
@@ -173,7 +211,6 @@ Route::group(['middleware' => ['auth']], function () {
         return view('additional');
     })->name('update-patient-info');
     Route::view('payment', 'payment')->name('payment');
-    Route::view('doctor-appointment', 'doctor-appointment')->name('doctor-appointment');
     Route::POST('/employee-new-salary', function (Request $request) {
         $employee_id = $request->input('employee_id');
         $new_salary = $request->input('new_salary');
@@ -192,9 +229,9 @@ Route::group(['middleware' => ['auth']], function () {
         $employee_name = $request->input('employee_name');
         $employee_roll = $request->input('employee_roll');
         $employee_salary = $request->input('employee_salary');
-        
-        if($employee_salary === NULL) {
-            if($employee_id === NULL) { 
+
+        if ($employee_salary === null) {
+            if ($employee_id === null) {
                 $employees = DB::select("
                     select concat(u.first_name,' ',u.last_name) as name,
                     u.id, r.role_name as role, u.salary
@@ -215,7 +252,7 @@ Route::group(['middleware' => ['auth']], function () {
                 ");
             }
         } else {
-            if($employee_id === NULL) { 
+            if ($employee_id === null) {
                 $employees = DB::select("
                     select concat(u.first_name,' ',u.last_name) as name,
                     u.id, r.role_name as role, u.salary
@@ -257,16 +294,16 @@ Route::group(['middleware' => ['auth']], function () {
         // $date = date('m/d/Y', $date);
         $date = ['date' => $date];
         $supervisor = $request->input('supervisor'); // null
-        // Update roster 
+        // Update roster
         $roster = DB::select("
             select * from rosters
             where roster_date = '{$date['date']}'
         ");
-        // If the array has length 0 there is nothing there, 
+        // If the array has length 0 there is nothing there,
         // insert new into rosters table
         $values = array_values($request->input());
         $keys = array_keys($request->input());
-        for($i=2; $i<count($request->input()); $i++) {
+        for ($i = 2; $i < count($request->input()); $i++) {
             // See if the value already exists in the database
             $exists = DB::select("
                 select * from rosters
@@ -275,7 +312,7 @@ Route::group(['middleware' => ['auth']], function () {
             ");
             $roster = new Roster;
             $roster->roster_date = $date['date'];
-            switch($i) {
+            switch ($i) {
                 case $i === 2:
                     $roster->role = $keys[$i];
                     $roster->personnel_name = $values[$i];
@@ -303,7 +340,7 @@ Route::group(['middleware' => ['auth']], function () {
             }
             // If nothing exists in database then add it,
             // Else save it
-            if(count($exists) == 0) {
+            if (count($exists) == 0) {
                 $roster->save();
             } else {
                 DB::update("
@@ -313,7 +350,7 @@ Route::group(['middleware' => ['auth']], function () {
                     and roster_date = '{$date['date']}'
                 ");
             }
-        } 
+        }
         // Roster to return
         $roster = DB::select("
             select * from rosters
@@ -322,32 +359,32 @@ Route::group(['middleware' => ['auth']], function () {
         // return(var_dump($roster));
         // Get list of supervisors
         $supervisors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Supervisor'
         ");
         // Get list of caretakers
         $caregivers = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Caregiver'
         ");
         // Get list of doctors
         $doctors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Doctor'
         ");
-        return view('set-roster', ['roster' =>$roster])
-        ->with('date', $date)
-        ->with('caregivers', $caregivers)
-        ->with('doctors', $doctors)
-        ->with('supervisors', $supervisors);
+        return view('set-roster', ['roster' => $roster])
+            ->with('date', $date)
+            ->with('caregivers', $caregivers)
+            ->with('doctors', $doctors)
+            ->with('supervisors', $supervisors);
     })->name('set-roster');
-    Route::get('/get-roster/', function(Request $request) { 
+    Route::get('/get-roster/', function (Request $request) {
         $date = $request->input('roster_date');
         $date = strtotime($date);
         $date = date('Y-m-d 00:00:00', $date);
@@ -358,48 +395,48 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         // Get list of supervisors
         $supervisors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Supervisor'
         ");
         // Get list of caretakers
         $caregivers = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Caregiver'
         ");
         // Get list of doctors
         $doctors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Doctor'
         ");
         $return = (int)$request->input('is-view-roster');
         if ($return === 1) {
-            return view('view-roster', ['roster' =>$roster])
-            ->with('date', $date)
-            ->with('caregivers', $caregivers)
-            ->with('doctors', $doctors)
-            ->with('supervisors', $supervisors);
+            return view('view-roster', ['roster' => $roster])
+                ->with('date', $date)
+                ->with('caregivers', $caregivers)
+                ->with('doctors', $doctors)
+                ->with('supervisors', $supervisors);
         } else {
-            return view('set-roster', ['roster' =>$roster])
-            ->with('date', $date)
-            ->with('caregivers', $caregivers)
-            ->with('doctors', $doctors)
-            ->with('supervisors', $supervisors);
+            return view('set-roster', ['roster' => $roster])
+                ->with('date', $date)
+                ->with('caregivers', $caregivers)
+                ->with('doctors', $doctors)
+                ->with('supervisors', $supervisors);
         }
     })->name('get-roster');
     Route::get('/view-set-roster', function () {
         // Get latest roster date
         $roster = DB::select("
-            select * from rosters 
-            where roster_date = ( 
-                select roster_date from rosters 
+            select * from rosters
+            where roster_date = (
+                select roster_date from rosters
                 order by roster_date desc
-                limit 1 
+                limit 1
             )
         ");
         // Get latest date roster is set for
@@ -410,43 +447,43 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         // Get list of supervisors
         $supervisors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Supervisor'
         ");
         // Get list of caretakers
         $caregivers = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Caregiver'
         ");
         // Get list of doctors
         $doctors = DB::select("
-            select concat(first_name,' ',last_name) as name, 
+            select concat(first_name,' ',last_name) as name,
             id from users u
             join roles r on u.role = r.role_id
             where r.role_name = 'Doctor'
         ");
         try {
             $date = (array)array_values($date)[0];
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             $date = $date;
         }
         return view('set-roster', ['roster' => $roster])
-        ->with('date', $date)
-        ->with('caregivers', $caregivers)
-        ->with('doctors', $doctors)
-        ->with('supervisors', $supervisors);
+            ->with('date', $date)
+            ->with('caregivers', $caregivers)
+            ->with('doctors', $doctors)
+            ->with('supervisors', $supervisors);
     })->name('view-set-roster');
-    Route::get('/view-roster', function(){
+    Route::get('/view-roster', function () {
         $roster = DB::select("
-            select * from rosters 
-            where roster_date = ( 
-                select roster_date from rosters 
+            select * from rosters
+            where roster_date = (
+                select roster_date from rosters
                 order by roster_date desc
-                limit 1 
+                limit 1
             )
         ");
         // return var_dump($roster);
@@ -457,13 +494,13 @@ Route::group(['middleware' => ['auth']], function () {
         ");
         try {
             $date = (array)array_values($date)[0];
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             $date = $date;
         }
         return view('view-roster', ['roster' => $roster])
-        ->with('date', $date);
+            ->with('date', $date);
     })->name('view-roster');
     Route::view('admin-report', 'admin-report')->name('admin-report');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
