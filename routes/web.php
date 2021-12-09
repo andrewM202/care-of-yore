@@ -113,7 +113,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     })->name('create-doctor-appointment');
 
-    Route::view('approval', 'approval')->name('approval');
     Route::view('patients', 'patients')->name('patients');
     Route::post('/patient-search', function (Request $request) {
         $patient_id = $request->input('patient_id');
