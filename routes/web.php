@@ -73,7 +73,36 @@ Route::group(['middleware' => ['auth']], function () {
         ');
         return view('roles', ['roles' => $roles]);
     })->name('roles');
-    Route::get('patients', function () {
+    Route::post('/patient-search', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $patient_name = $request->input('patient_name');
+        $patient_date_of_birth = $request->input('patient_date_of_birth');
+        $patient_date_of_birth = strtotime($patient_date_of_birth);
+        $patient_date_of_birth = date('Y-m-d 00:00:00', $patient_date_of_birth);
+        $emergency_contact = $request->input('emergency_contact');
+        $emergency_contact_relation = $request->input('emergency_contact_relation');
+        $admission_date = $request->input('admission_date');
+        $admission_date = strtotime($admission_date);
+        $admission_date = date('Y-m-d 00:00:00', $admission_date);
+
+        $patients = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name,
+            u.id, date_of_birth, emergency_contact, emergency_contact_relation,
+            admission_date
+            from users u
+            join roles r on u.role = r.role_id
+            where role = 3
+            and (id = '{$patient_id}' or '{$patient_id}' = '')
+            and (concat(u.first_name,' ',u.last_name) like '%{$patient_name}%' or '{$patient_name}' = '')
+            and (date_of_birth = '{$patient_date_of_birth}' or '{$patient_date_of_birth}' = '1970-01-01 00:00:00')
+            and (emergency_contact like '%{$emergency_contact}%' or '{$emergency_contact}' = '')
+            and (emergency_contact_relation like '%{$emergency_contact_relation}%' or '{$emergency_contact_relation}' = '')
+            and (admission_date = '{$admission_date}' or '{$admission_date}' = '1970-01-01 00:00:00')
+        ");
+
+        return view('patients', ['patients' => $patients]);
+    })->name('patient-search');
+    Route::get('/patients', function () {
         $patients = DB::select("
             select concat(u.first_name,' ',u.last_name) as name,
             u.id, date_of_birth, emergency_contact, emergency_contact_relation,
