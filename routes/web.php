@@ -84,7 +84,21 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('dashboard');
     Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
-    Route::view('doctor-dashboard', 'doctor-dashboard')->name('doctor-dashboard');
+    Route::get('doctor-dashboard', function() {
+        $doctor_id = Auth::user()->id;
+        $appointments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name,
+            doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med 
+            from appointments a
+            left join medications m
+            on a.patient_id = m.patient_id
+            join users u
+            on a.patient_id = u.id
+            where a.doctor_id = '{$doctor_id}'
+        ");
+        var_dump($appointments);
+        return view('doctor-dashboard', ['appointments' => $appointments]);
+    })->name('doctor-dashboard');
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
     
