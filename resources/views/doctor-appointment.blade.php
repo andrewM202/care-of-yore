@@ -54,7 +54,7 @@
                     <x-label for='patient-id' :value="__('Patient ID')" />
                     <x-input name='patient_id' type="text" id="patient-id" class="form-input" />
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center mt-5">
                     <x-button type='submit' class="mx-4">Ok</x-button>
                     <x-button type='reset' class="mx-4">Cancel</x-button>
                 </div>
