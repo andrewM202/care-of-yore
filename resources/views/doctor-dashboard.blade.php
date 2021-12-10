@@ -14,6 +14,7 @@
                     <section class="container mx-auto mt-5">
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                             <div class="w-full overflow-x-auto">
+                                <h4>Previous appointments</h4>
                                 <table class="w-full">
                                     <thead>
                                         <tr class="text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600">
@@ -27,7 +28,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
-                                        @foreach ($appointments as $appointment)
+                                        @foreach ($oldAppointments as $appointment)
                                             <tr class="text-gray-700">
                                                 <form method='post' action='{{ route('update-meds') }}'>
                                                     @csrf
@@ -57,7 +58,7 @@
                                                     </td>
                                                 </form>
                                             </tr>
-                    `                    @endforeach
+                                         @endforeach
                                     </tbody>
                                 </table>
                                 <x-button type='submit'>

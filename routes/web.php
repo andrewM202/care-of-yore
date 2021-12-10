@@ -89,7 +89,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('doctor-dashboard', function(Request $request) {
         $doctor_id = Auth::user()->id;
-        $appointments = DB::select("
+        $currentDate = date('Y-m-d');
+        $oldAppointments = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name,
             doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med 
             from appointments a
@@ -98,6 +99,7 @@ Route::group(['middleware' => ['auth']], function () {
             join users u
             on a.patient_id = u.id
             where a.doctor_id = '{$doctor_id}'
+            and a.appointment_date < '{$currentDate}'
         ");
         $tillDate = $request->input('till-date');
         if ($tillDate === null) {
@@ -110,8 +112,9 @@ Route::group(['middleware' => ['auth']], function () {
             on a.patient_id = u.id
             where doctor_id = '{$doctor_id}'
             and appointment_date <= '{$tillDate}'
+            and appointment_date >= '{$currentDate}'
         ");
-        return view('doctor-dashboard', ['appointments' => $appointments])
+        return view('doctor-dashboard', ['oldAppointments' => $oldAppointments])
             ->with('appointmentsTill', $appointmentsTill);
     })->name('doctor-dashboard');
     Route::post('update-meds', function(Request $request) {
@@ -134,7 +137,7 @@ Route::group(['middleware' => ['auth']], function () {
         }
         return redirect('/doctor-dashboard');
     })->name('update-meds');
-    
+
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
     
