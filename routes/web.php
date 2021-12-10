@@ -86,7 +86,8 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('dashboard');
     Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
-    Route::get('doctor-dashboard', function() {
+
+    Route::get('doctor-dashboard', function(Request $request) {
         $doctor_id = Auth::user()->id;
         $appointments = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name,
@@ -98,7 +99,20 @@ Route::group(['middleware' => ['auth']], function () {
             on a.patient_id = u.id
             where a.doctor_id = '{$doctor_id}'
         ");
-        return view('doctor-dashboard', ['appointments' => $appointments]);
+        $tillDate = $request->input('till-date');
+        if ($tillDate === null) {
+            $tillDate = date('Y-m-d');
+        }
+        $appointmentsTill = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name, appointment_date
+            from appointments a
+            join users u
+            on a.patient_id = u.id
+            where doctor_id = '{$doctor_id}'
+            and appointment_date <= '{$tillDate}'
+        ");
+        return view('doctor-dashboard', ['appointments' => $appointments])
+            ->with('appointmentsTill', $appointmentsTill);
     })->name('doctor-dashboard');
     Route::post('update-meds', function(Request $request) {
         $morning_med = $request->input('morning_med');
@@ -118,12 +132,9 @@ Route::group(['middleware' => ['auth']], function () {
                 values ('{$patient_id}', '{$morning_med}', '{$afternoon_med}', '{$evening_med}')
             ");
         }
-        // $patient->morning_med = $morning_med;
-        // $patient->afternoon_med = $afternoon_med;
-        // $patient->evening_med = $evening_med;
-        // $patient->save();
         return redirect('/doctor-dashboard');
     })->name('update-meds');
+    
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
     

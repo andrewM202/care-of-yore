@@ -68,12 +68,12 @@
                     </section>
 
                     <section>
-                        <form>
+                        <form action='{{ route('doctor-dashboard') }}' method='get'>
                             <div class="grid grid-cols-3 gap-4 m-5">
                                 <p>Appointments</p>
                                 <div>
                                     <x-label for='till-date' :value="__('Till Date')" />
-                                    <x-input type="date" id="till-date" class="form-input" />
+                                    <x-input type="date" name='till-date' id="till-date" class="form-input" />
                                 </div>
                                 <x-button>Submit</x-button>
                             </div>
@@ -91,17 +91,18 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
-                                        <tr class="text-gray-700">
-                                            <td class="px-4 py-3 border">
-                                                <div class="flex items-center text-sm">
-                                                    Dr. Arafat
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                Date
-                                            </td>
-                                        </tr>
-
+                                        @foreach ($appointmentsTill as $appointment)
+                                            <tr class="text-gray-700">
+                                                <td class="px-4 py-3 border">
+                                                    <div class="flex items-center text-sm">
+                                                        {{ $appointment->patient_name }}
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-3 text-sm border">
+                                                    {{ $appointment->appointment_date }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
