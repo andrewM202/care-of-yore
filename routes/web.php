@@ -6,6 +6,8 @@ use App\Models\Roles;
 use App\Models\Roster;
 // Model for users
 use App\Models\User;
+// Model for Medications
+use App\Models\Medications;
 // Model for appointments
 use Illuminate\Http\Request;
 // Model for roster
@@ -96,9 +98,32 @@ Route::group(['middleware' => ['auth']], function () {
             on a.patient_id = u.id
             where a.doctor_id = '{$doctor_id}'
         ");
-        var_dump($appointments);
         return view('doctor-dashboard', ['appointments' => $appointments]);
     })->name('doctor-dashboard');
+    Route::post('update-meds', function(Request $request) {
+        $morning_med = $request->input('morning_med');
+        $afternoon_med = $request->input('afternoon_med');
+        $evening_med = $request->input('evening_med');
+        $patient_id = $request->input('patient_id');
+        $med = Medications::where('patient_id', $patient_id);
+        if ($med->exists()) {
+            DB::update("
+                update medications
+                set morning_med = '{$morning_med}', afternoon_med = '{$afternoon_med}', evening_med = '{$evening_med}'
+                where patient_id = '{$patient_id}'
+            ");
+        } else {
+            DB::insert("
+                insert into medications (patient_id, morning_med, afternoon_med, evening_med)
+                values ('{$patient_id}', '{$morning_med}', '{$afternoon_med}', '{$evening_med}')
+            ");
+        }
+        // $patient->morning_med = $morning_med;
+        // $patient->afternoon_med = $afternoon_med;
+        // $patient->evening_med = $evening_med;
+        // $patient->save();
+        return redirect('/doctor-dashboard');
+    })->name('update-meds');
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
     

@@ -14,8 +14,6 @@
                     <section class="container mx-auto mt-5">
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                             <div class="w-full overflow-x-auto">
-                                <form method='post' action='{{ route('update-meds')}}'>
-                                    @csrf
                                 <table class="w-full">
                                     <thead>
                                         <tr class="text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600">
@@ -25,35 +23,46 @@
                                             <th class="px-4 py-3">Morning Med</th>
                                             <th class="px-4 py-3">Afternoon Med</th>
                                             <th class="px-4 py-3">Night Med</th>
+                                            <th class="px-4 py-3">Update Meds</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white">
                                         @foreach ($appointments as $appointment)
-                                        <tr class="text-gray-700">
-                                            <td class="px-4 py-3 border">
-                                                <div class="flex items-center text-sm">
-                                                    {{ $appointment->patient_name }}
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                {{ $appointment->appointment_date }}
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                Placeholder comment
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                {{ $appointment->morning_med }}
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                {{ $appointment->afternoon_med }}
-                                            </td>
-                                            <td class="px-4 py-3 text-sm border">
-                                                {{ $appointment->evening_med }}
-                                            </td>
-                                        </tr>
+                                            <tr class="text-gray-700">
+                                                <form method='post' action='{{ route('update-meds') }}'>
+                                                    @csrf
+                                                    <td class="px-4 py-3 border">
+                                                        <div class="flex items-center text-sm">
+                                                            {{ $appointment->patient_name }}
+                                                            <input type="hidden" name="patient_id" value="{{ $appointment->patient_id }}">
+                                                        </div>
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        {{ $appointment->appointment_date }}
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        Placeholder comment
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        <input type="text" name='morning_med' value="{{ $appointment->morning_med }}">
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        <input type="text" name='afternoon_med' value="{{ $appointment->afternoon_med }}">
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        <input type="text" name='evening_med' value="{{ $appointment->evening_med }}">
+                                                    </td>
+                                                    <td class="px-4 py-3 text-sm border">
+                                                        <x-button type='submit'>Update</x-button>
+                                                    </td>
+                                                </form>
+                                            </tr>
                     `                    @endforeach
                                     </tbody>
                                 </table>
+                                <x-button type='submit'>
+                                    Update
+                                </x-button>
                             </div>
                         </div>
                     </section>
