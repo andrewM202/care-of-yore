@@ -1,21 +1,21 @@
 <?php
 
 // Added to query database
-use App\Models\Roles;
-// Model for roles
-use App\Models\Roster;
-// Model for users
-use App\Models\User;
-// Model for Medications
 use App\Models\Medications;
+// Model for roles
+use App\Models\Roles;
+// Model for users
+use App\Models\Roster;
+// Model for Medications
+use App\Models\User;
 // Model for appointments
 use Illuminate\Http\Request;
 // Model for roster
-use Illuminate\Support\Facades\DB;
-// Get input from requests
-use Illuminate\Support\Facades\Route;
-//Auth
 use Illuminate\Support\Facades\Auth;
+// Get input from requests
+use Illuminate\Support\Facades\DB;
+//Auth
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/roles');
     })->name('delete-role');
 
-    Route::get('dashboard', function() {
+    Route::get('dashboard', function () {
         $user = Auth::user();
         if ($user->role == 3) {
             return redirect('patient-dashboard');
@@ -87,12 +87,12 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('dashboard');
     Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
 
-    Route::get('doctor-dashboard', function(Request $request) {
+    Route::get('doctor-dashboard', function (Request $request) {
         $doctor_id = Auth::user()->id;
-        $currentDate = date('Y-m-d');
+        $currentDate = date('Y-m-d 00:00:00');
         $oldAppointments = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name,
-            doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med 
+            doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med
             from appointments a
             left join medications m
             on a.patient_id = m.patient_id
@@ -101,6 +101,7 @@ Route::group(['middleware' => ['auth']], function () {
             where a.doctor_id = '{$doctor_id}'
             and a.appointment_date < '{$currentDate}'
         ");
+        // return var_dump($oldAppointments);
         $tillDate = $request->input('till-date');
         if ($tillDate === null) {
             $tillDate = date('Y-m-d');
@@ -117,7 +118,7 @@ Route::group(['middleware' => ['auth']], function () {
         return view('doctor-dashboard', ['oldAppointments' => $oldAppointments])
             ->with('appointmentsTill', $appointmentsTill);
     })->name('doctor-dashboard');
-    Route::post('update-meds', function(Request $request) {
+    Route::post('update-meds', function (Request $request) {
         $morning_med = $request->input('morning_med');
         $afternoon_med = $request->input('afternoon_med');
         $evening_med = $request->input('evening_med');
@@ -140,7 +141,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
-    
+
     Route::view('', 'welcome')->name('welcome');
     Route::get('/roles', function () {
         $roles = DB::select('
@@ -211,16 +212,12 @@ Route::group(['middleware' => ['auth']], function () {
         $appointment_date = strtotime($appointment_date);
         $appointment_date = date('Y-m-d 00:00:00', $appointment_date);
         $patient_id = $request->input('patient_id');
-        $doctor_id = DB::select('
-            select id from users
-            where role = 4
-        ');
-        $doctor_id = (array)array_values($doctor_id)[0];
+        $doctor_id = $request->input('doctors');
 
         DB::insert("
             insert into appointments
             (appointment_date, patient_id, doctor_id)
-            values ('{$appointment_date}', '{$patient_id}', '{$doctor_id['id']}')
+            values ('{$appointment_date}', '{$patient_id}', '{$doctor_id}')
         ");
 
         return redirect('/doctor-appointment');
