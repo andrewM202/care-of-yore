@@ -15,29 +15,30 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white">
+                    @foreach ($appointments as $appointment)
                     <tr class="text-gray-700">
                         <td class="px-4 py-3 border">
                             <div class="flex items-center text-sm">
-                                Dr. Arafat
+                                {{ $appointment->patient_id }}
                             </div>
                         </td>
                         <td class="px-4 py-3 text-sm border">
-                            Date
+                            {{ $appointment->date }}
                         </td>
                         <td class="px-4 py-3 text-sm border">
                             Placeholder comment
                         </td>
                         <td class="px-4 py-3 text-sm border">
-                            <input type='checkbox' disabled>
+                            {{ $appointment->morning_med }}
                         </td>
                         <td class="px-4 py-3 text-sm border">
-                            <input type='checkbox' disabled>
+                            {{ $appointment->afternoon_med }}
                         </td>
                         <td class="px-4 py-3 text-sm border">
-                            <input type='checkbox' disabled>
+                            {{ $appointment->evening_med }}
                         </td>
                     </tr>
-
+`                    @endforeach
                 </tbody>
             </table>
         </div>

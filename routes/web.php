@@ -6,6 +6,8 @@ use App\Models\Roles;
 use App\Models\Roster;
 // Model for users
 use App\Models\User;
+// Model for Medications
+use App\Models\Medications;
 // Model for appointments
 use Illuminate\Http\Request;
 // Model for roster
@@ -84,7 +86,58 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('dashboard');
     Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
-    Route::view('doctor-dashboard', 'doctor-dashboard')->name('doctor-dashboard');
+
+    Route::get('doctor-dashboard', function(Request $request) {
+        $doctor_id = Auth::user()->id;
+        $currentDate = date('Y-m-d');
+        $oldAppointments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name,
+            doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med 
+            from appointments a
+            left join medications m
+            on a.patient_id = m.patient_id
+            join users u
+            on a.patient_id = u.id
+            where a.doctor_id = '{$doctor_id}'
+            and a.appointment_date < '{$currentDate}'
+        ");
+        $tillDate = $request->input('till-date');
+        if ($tillDate === null) {
+            $tillDate = date('Y-m-d');
+        }
+        $appointmentsTill = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name, appointment_date
+            from appointments a
+            join users u
+            on a.patient_id = u.id
+            where doctor_id = '{$doctor_id}'
+            and appointment_date <= '{$tillDate}'
+            and appointment_date >= '{$currentDate}'
+        ");
+        return view('doctor-dashboard', ['oldAppointments' => $oldAppointments])
+            ->with('appointmentsTill', $appointmentsTill);
+    })->name('doctor-dashboard');
+    Route::post('update-meds', function(Request $request) {
+        $morning_med = $request->input('morning_med');
+        $afternoon_med = $request->input('afternoon_med');
+        $evening_med = $request->input('evening_med');
+        $patient_id = $request->input('patient_id');
+        $med = Medications::where('patient_id', $patient_id);
+        if ($med->exists()) {
+            DB::update("
+                update medications
+                set morning_med = '{$morning_med}', afternoon_med = '{$afternoon_med}', evening_med = '{$evening_med}'
+                where patient_id = '{$patient_id}'
+            ");
+        } else {
+            DB::insert("
+                insert into medications (patient_id, morning_med, afternoon_med, evening_med)
+                values ('{$patient_id}', '{$morning_med}', '{$afternoon_med}', '{$evening_med}')
+            ");
+        }
+        return redirect('/doctor-dashboard');
+    })->name('update-meds');
+
     Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
     
