@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 // Get input from requests
 use Illuminate\Support\Facades\Route;
+//Auth
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +68,26 @@ Route::group(['middleware' => ['auth']], function () {
         $user = Roles::where('role_name', $role_name)->firstorfail()->delete();
         return redirect('/roles');
     })->name('delete-role');
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('dashboard', function() {
+        $user = Auth::user();
+        if ($user->role == 3) {
+            return redirect('patient-dashboard');
+        } elseif ($user->role == 4) {
+            return redirect('doctor-dashboard');
+        } elseif ($user->role == 5) {
+            return redirect('caregiver-dashboard');
+        } elseif ($user->role == 6) {
+            return redirect('family-member-dashboard');
+        } else {
+            return redirect('get-roster');
+        }
+    })->name('dashboard');
+    Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
+    Route::view('doctor-dashboard', 'doctor-dashboard')->name('doctor-dashboard');
+    Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
+    Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
+    
     Route::view('', 'welcome')->name('welcome');
     Route::get('/roles', function () {
         $roles = DB::select('
