@@ -11,7 +11,7 @@
                 <div class="p-6 bg-white">
                     <h3 class='font-semibold text-lg text-gray-800 leading-tight'>Doctor's Home</h3>
 
-                    <section class="container mx-auto mt-5">
+                    <section class="container mt-5 w-full">
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                             <div class="w-full overflow-x-auto">
                                 <h4>Previous appointments</h4>
