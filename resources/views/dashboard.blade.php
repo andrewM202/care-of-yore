@@ -5,21 +5,19 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white">
-                    @if (Auth::user()->role == 3)
-                        <x-patient-home></x-patient-home>
-                    @elseif (Auth::user()->role == 4)
-                        <x-doctor-home></x-doctor-home>
-                    @elseif (Auth::user()->role == 5)
-                        <x-caregiver-home></x-caregiver-home>
-                    @elseif (Auth::user()->role == 6)
-                        <x-family-member-home></x-family-member-home>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-spencer>
+        <x-slot name='slot'>
+            @if (Auth::user()->role == 1)
+                <x-admin-home></x-admin-home>
+            @elseif (Auth::user()->role == 3)
+                <x-patient-home></x-patient-home>
+            @elseif (Auth::user()->role == 4)
+                <x-doctor-home></x-doctor-home>
+            @elseif (Auth::user()->role == 5)
+                <x-caregiver-home></x-caregiver-home>
+            @elseif (Auth::user()->role == 6)
+                <x-family-member-home></x-family-member-home>
+            @endif
+        </x-slot>
+    </x-spencer>
 </x-app-layout>

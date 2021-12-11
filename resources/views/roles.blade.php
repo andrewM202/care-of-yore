@@ -1,10 +1,8 @@
 <x-app-layout>
     <body>
-    <div class="py-12">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                <div class='flex flex-row justify-center'>
+        <x-spencer>
+            <x-slot name="slot">
+            <div class='flex flex-row justify-center'>
                 <x-slot name="header">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                         {{ __('Role Management') }}
@@ -56,11 +54,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        
-        
+            </x-slot>
+        </x-spencer>
     </body>
 </x-app-layout>

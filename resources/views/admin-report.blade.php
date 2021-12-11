@@ -5,10 +5,8 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="flex flex-col justify-center p-6 bg-white border-b border-gray-200">
+    <x-spencer>
+       <x-slot name="slot">
                     <div class="flex items-center justify-center h-full w-full my-4">
                         <div class="flex justify-center flex-col">
                             <x-label for='date' :value="__('Date')" />
@@ -69,7 +67,13 @@
                         </table>
                      </div>
                     </div>
-                </div>
+       </x-slot>
+    </x-spencer>
+
+    <div class="py-12">
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
             </div>
         </div>
     </div>
