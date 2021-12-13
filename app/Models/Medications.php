@@ -14,7 +14,8 @@ class Medications extends Model
         'morning_med',
         'afternoon_med',
         'evening_med',
+        'comment',
+        'appointment_id',
     ];
-
     public $timestamps = false;
 }
