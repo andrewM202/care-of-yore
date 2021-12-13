@@ -294,7 +294,47 @@ Route::group(['middleware' => ['auth']], function () {
         $patient->save();
         return view('additional');
     })->name('update-patient-info');
-    Route::view('payment', 'payment')->name('payment');
+    Route::get('/payment-search', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $payments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name,
+            total_due - total_paid as amount_left, p.payment_id,
+            p.* from payments p
+            inner join users u on p.patient_id = u.id
+            where p.patient_id = '{$patient_id}'
+        ");
+        return view('payment', ['payments' => $payments]);
+    })->name('payment-search');
+    Route::post('modify-payment', function (Request $request) {
+        $payment_id = $request->input('patient_id');
+        $total_due = $request->input('total_due');
+        $total_paid = $request->input('total_paid');
+        DB::update("
+            update payments
+            set total_due = '{$total_due}',
+            total_paid = '{$total_paid}'
+            where payment_id = '{$payment_id}'
+        ");
+        return redirect("payment");
+    })->name('modify-payment');
+    Route::post('/add-payment', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $total_due = $request->input('total_due');
+        DB::insert("
+            insert into payments (patient_id, total_due, total_paid)
+            values('{$patient_id}', '{$total_due}', 0)
+        ");
+        return redirect("payment");
+    })->name('add-payment');
+    Route::get('/payment', function () {
+        $payments = DB::select("
+            select concat(u.first_name,' ',u.last_name) as patient_name,
+            total_due - total_paid as amount_left, p.payment_id,
+            p.* from payments p
+            inner join users u on p.patient_id = u.id
+        ");
+        return view('payment', ['payments' => $payments]);
+    })->name('payment');
     Route::POST('/employee-new-salary', function (Request $request) {
         $employee_id = $request->input('employee_id');
         $new_salary = $request->input('new_salary');
