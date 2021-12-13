@@ -41,7 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
         if (count($users) > 0) {
             return view('approval', ['users' => $users]);
         } else {
-            return view('approval', ['users' => []]);
+            return view('approval', ['users' => [] ]);
         }
     })->name('approval');
 
