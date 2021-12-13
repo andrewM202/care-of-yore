@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth']], function () {
             inner join users u
             on a.patient_id = u.id
             where a.doctor_id = '{$doctor_id}'
-            and a.appointment_date < '{$currentDate}'
+            and a.appointment_date <= '{$currentDate}'
         ");
         
         $tillDate = $request->input('till-date');
