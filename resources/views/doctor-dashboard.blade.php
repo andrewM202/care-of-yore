@@ -40,9 +40,10 @@
                                                     </td>
                                                     <td class="px-4 py-3 text-sm border">
                                                         {{ $appointment->appointment_date }}
+                                                        <input type="hidden" name="appointment_id" value="{{ $appointment->appointment_id }}">
                                                     </td>
                                                     <td class="px-4 py-3 text-sm border">
-                                                        Placeholder comment
+                                                        <input type="text" name='comment' value="{{ $appointment->comment }}" placeholder="No Comment">
                                                     </td>
                                                     <td class="px-4 py-3 text-sm border">
                                                         <input type="text" name='morning_med' value="{{ $appointment->morning_med }}">

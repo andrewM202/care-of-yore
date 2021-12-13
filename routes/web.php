@@ -91,20 +91,25 @@ Route::group(['middleware' => ['auth']], function () {
         $doctor_id = Auth::user()->id;
         $currentDate = date('Y-m-d 00:00:00');
         $oldAppointments = DB::select("
-            select concat(u.first_name,' ',u.last_name) as patient_name,
-            doctor_id, a.patient_id, appointment_date, morning_med, afternoon_med, evening_med
+            select distinct concat(u.first_name,' ',u.last_name) as patient_name,
+            a.doctor_id, a.patient_id, a.appointment_date, m.morning_med, 
+            m.afternoon_med, m.evening_med,
+            a.appointment_id, m.comment
             from appointments a
-            left join medications m
-            on a.patient_id = m.patient_id
-            join users u
+            left outer join medications m
+            on a.patient_id = m.patient_id and m.appointment_id = a.appointment_id
+            inner join users u
             on a.patient_id = u.id
             where a.doctor_id = '{$doctor_id}'
             and a.appointment_date < '{$currentDate}'
         ");
-        // return var_dump($oldAppointments);
+        
         $tillDate = $request->input('till-date');
-        if ($tillDate === null) {
-            $tillDate = date('Y-m-d');
+        $tillDate = strtotime($tillDate);
+        $tillDate = date('Y-m-d 00:00:00', $tillDate);
+        if ($tillDate === null or $tillDate === '1970-01-01 00:00:00') {
+            $tillDate = date('Y-m-d 00:00:00');
+            $tillDate = date('Y-m-d 00:00:00', strtotime($tillDate . ' + 30 days'));
         }
         $appointmentsTill = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name, appointment_date
@@ -123,17 +128,25 @@ Route::group(['middleware' => ['auth']], function () {
         $afternoon_med = $request->input('afternoon_med');
         $evening_med = $request->input('evening_med');
         $patient_id = $request->input('patient_id');
-        $med = Medications::where('patient_id', $patient_id);
-        if ($med->exists()) {
+        $comment = $request->input('comment');
+        $appointment_id = $request->input('appointment_id');
+        $med = DB::select("
+            select * from medications
+            where patient_id = '{$patient_id}'
+            and appointment_id = '{$appointment_id}'
+        ");
+        if (!empty($med)) {
             DB::update("
-                update medications
-                set morning_med = '{$morning_med}', afternoon_med = '{$afternoon_med}', evening_med = '{$evening_med}'
+                update medications m 
+                set morning_med = '{$morning_med}', afternoon_med = '{$afternoon_med}', evening_med = '{$evening_med}',
+                comment = '{$comment}'
                 where patient_id = '{$patient_id}'
+                and appointment_id = '{$appointment_id}'
             ");
         } else {
             DB::insert("
-                insert into medications (patient_id, morning_med, afternoon_med, evening_med)
-                values ('{$patient_id}', '{$morning_med}', '{$afternoon_med}', '{$evening_med}')
+                insert into medications (patient_id, morning_med, afternoon_med, evening_med, comment, appointment_id)
+                values ('{$patient_id}', '{$morning_med}', '{$afternoon_med}', '{$evening_med}', '{$comment}', '{$appointment_id}')
             ");
         }
         return redirect('/doctor-dashboard');
