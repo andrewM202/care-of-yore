@@ -9,27 +9,27 @@
         <x-slot name="slot">
             <div class="flex justify-center flex-col">
                 <div class='flex flex-col'>
-                    <form method='post' action='{{ route('update-meds') }}'>
+                    <form method='get' action='{{ route('payment-search') }}'>
                         @csrf
                         <h1 class="mb-1.5 text-center text-2xl">Search For Patient</h1>
                         <div class="flex justify-center flex-col">
-                            <x-label for='patient-id' :value="__('Patient ID')" />
-                            <x-input type="text" id="patient-id" class="form-input" />
+                            <x-label for='patient_id' :value="__('Patient ID')" />
+                            <x-input type="text" name="patient_id" id="patient_id" class="form-input" />
                         </div>
                         <div class="flex justify-center my-4">
                             <x-button type="submit">Search</x-button>
                         </div>
                     </form>
-                    <form method='post' action='{{ route('update-meds') }}'>
+                    <form method='post' action='{{ route('add-payment') }}'>
                         @csrf
                         <h1 class="mb-1.5 text-center text-2xl">Add Payment</h1>
                         <div class="flex justify-center flex-col">
-                            <x-label for='total-due' :value="__('Total Due')" />
-                            <x-input type="text" id="total-due" class="form-input" />
+                            <x-label for='total_due' :value="__('Total Due')" />
+                            <x-input type="text" name="total_due" id="total_due" class="form-input" />
                         </div>
                         <div  class="flex justify-center flex-col my-4">
-                            <x-label for='new-payment' :value="__('Patient ID')" />
-                            <x-input type="text" id="new-payment" class="form-input" />
+                            <x-label for='patient_id' :value="__('Patient ID')" />
+                            <x-input type="text" name="patient_id" id="patient_id" class="form-input" />
                         </div>
                         <div class="flex justify-center">
                             <x-button class="mx-4" type="submit">Add Payment</x-button>
@@ -49,31 +49,32 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                            <tr class="text-gray-700">
-                                <form method='post' action='{{ route('update-meds') }}'>
-                                    @csrf
-                                    <td class="px-4 py-3 border">
-                                        <div class="flex items-center text-sm">
-                                            <input type="hidden" name="patient_id" value="}">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm border">
-                                        <input type="hidden" name="appointment_id" value="">
-                                    </td>
-                                    <td class="px-4 py-3 text-sm border">
-                                        <input type="text" name='comment' value="" placeholder="No Comment">
-                                    </td>
-                                    <td class="px-4 py-3 text-sm border">
-                                        <input type="text" name='morning_med' value="}">
-                                    </td>
-                                    <td class="px-4 py-3 text-sm border">
-                                        test
-                                    </td>
-                                    <td class="px-4 py-3 text-sm border">
-                                        <x-button type='submit'>Update</x-button>
-                                    </td>
-                                </form>
-                            </tr>
+                        @foreach($payments as $payment)
+                        <tr class="text-gray-700">
+                            <form method='post' action='{{ route('modify-payment') }}'>
+                                @csrf
+                                <input type="hidden" name="patient_id" value="{{ $payment->payment_id }}">
+                                <td class="px-4 py-3 border">
+                                    {{ $payment->patient_id }}
+                                </td>
+                                <td class="px-4 py-3 text-sm border">
+                                    {{ $payment->patient_name }}
+                                </td>
+                                <td class="px-4 py-3 text-sm border">
+                                    <input type="text" name='total_due' value="{{ $payment->total_due }}" placeholder="None Due">
+                                </td>
+                                <td class="px-4 py-3 text-sm border">
+                                    <input type="text" name='total_paid' value="{{ $payment->total_paid }}" placeholder="None Paid">
+                                </td>
+                                <td class="px-4 py-3 text-sm border">
+                                    {{ $payment->amount_left }}
+                                </td>
+                                <td class="px-4 py-3 text-sm border">
+                                    <x-button type='submit'>Update</x-button>
+                                </td>
+                            </form>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
