@@ -6,11 +6,11 @@
         </h2>
     </x-slot>
 
-    <x-spencer class='box-border'>
+    <x-spencer>
         <x-slot name='slot'>
             <!-- component -->
             <div class="w-full">
-                <div class="flex bg-white h-96">
+                <div class="flex bg-white justify-between" style='height: 30rem'>
                     <div class="flex items-center text-center lg:text-left px-8 md:px-12 lg:w-1/2">
                         <div>
                             <h1 class="py-5 text-8xl font-semibold text-gray-800 md:text-8xl">Welcome, {{ Auth::user()->first_name }}</h1>
@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hidden lg:block lg:w-1/2">
+                    <div class="hidden lg:block lg:w-1/3">
                         <div class="h-full object-cover" style="background-image: url(https://content.fortune.com/wp-content/uploads/2015/04/courtyard-4.jpg?w=840); background-size: cover">
                         </div>
                     </div>
