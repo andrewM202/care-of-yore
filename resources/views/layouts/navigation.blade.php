@@ -34,47 +34,65 @@
                     </x-slot>
 
                     <x-slot name="content">
-
+                        @if(Auth::user()->role == 1)
                         <x-dropdown-link :href='route("roles")'>
                             {{ __('Roles')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2]))
                         <x-dropdown-link :href='route("approval")'>
                             {{ __('Approval')}}
                         </x-dropdown-link>
+                        @endif
                         
+                        @if(in_array(Auth::user()->role, [1, 2]))
                         <x-dropdown-link :href='route("additional")'>
                             {{ __('Add Patient Info')}}
                         </x-dropdown-link>
+                        @endif
                         
+                        @if(in_array(Auth::user()->role, [1]))
                         <x-dropdown-link :href='route("payment")'>
                             {{ __('Payment')}}
-
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2, 4, 5]))
                         <x-dropdown-link :href='route("patients")'>
                             {{ __('Patients')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2]))
                         <x-dropdown-link :href='route("doctor-appointment")'>
                             {{ __('Create Appointment')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2]))
                         <x-dropdown-link :href='route("employee-list")'>
                             {{ __('Employees')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2]))
                         <x-dropdown-link :href='route("view-set-roster")'>
                             {{ __('Set Roster')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1, 2, 3, 4, 5, 6]))
                         <x-dropdown-link :href='route("view-roster")'>
                             {{ __('View Roster')}}
                         </x-dropdown-link>
+                        @endif
 
+                        @if(in_array(Auth::user()->role, [1]))
                         <x-dropdown-link :href='route("admin-report")'>
                             {{ __('Admin Report')}}
                         </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -118,46 +136,65 @@
             </div>
 
             <div class="mt-3 space-y-1">
-
+                @if(in_array(Auth::user()->role, [1]))
                 <x-responsive-nav-link :href="route('roles')">
                     {{ __('Roles') }}
                 </x-responsive-nav-link>
+                @endif
                 
+                @if(in_array(Auth::user()->role, [1, 2]))
                 <x-responsive-nav-link :href="route('approval')">
                     {{ __('Approval') }}
                 </x-responsive-nav-link>
+                @endif
 
+                @if(in_array(Auth::user()->role, [1, 2]))
                 <x-responsive-nav-link :href="route('additional')">
                     {{ __('Add Patient Info') }}
                 </x-responsive-nav-link>
+                @endif
                 
+                @if(in_array(Auth::user()->role, [1]))
                 <x-responsive-nav-link :href="route('payment')">
                     {{ __('Payment') }}
                 </x-responsive-nav-link>
+                @endif
 
+                @if(in_array(Auth::user()->role, [1, 2, 4, 5]))
                 <x-responsive-nav-link :href="route('patients')">
                     {{ __('Patients') }}
                  </x-responsive-nav-link>
+                 @endif
 
+                 @if(in_array(Auth::user()->role, [1, 2]))
                  <x-responsive-nav-link :href="route('doctor-appointment')">
                     {{ __('Appointment') }}
                  </x-responsive-nav-link>
+                 @endif
 
+                 @if(in_array(Auth::user()->role, [1, 2]))
                  <x-responsive-nav-link :href="route('employee-list')">
                     {{ __('Employees') }}
                  </x-responsive-nav-link>
+                 @endif
 
+                 @if(in_array(Auth::user()->role, [1, 2]))
                  <x-responsive-nav-link :href="route('view-set-roster')">
                     {{ __('Set Roster') }}
                  </x-responsive-nav-link>
+                 @endif
 
+                 @if(in_array(Auth::user()->role, [1, 2, 3, 4, 5, 6]))
                  <x-responsive-nav-link :href="route('view-roster')">
                     {{ __('View Roster') }}
                  </x-responsive-nav-link>
+                 @endif
 
+                 @if(in_array(Auth::user()->role, [1]))
                  <x-responsive-nav-link :href="route('admin-report')">
                     {{ __('Admin Report') }}
                  </x-responsive-nav-link>
+                 @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
