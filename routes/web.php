@@ -235,8 +235,82 @@ Route::group(['middleware' => ['auth']], function () {
 
         return view('caregiver-dashboard', ['patients' => $patients]);
     })->name('caregiver-dashboard');
+    Route::post('/family-member-patient-details', function(Request $request) {
+        $date = $request->input('date');
+        $family_code = $request->input('family_code');
+        $patient_id = $request->input('patient_id');
+        $exists = DB::select("
+            select id from users
+            where id = '{$patient_id}'
+            and family_code = '{$family_code}'
+        ");
+        if(empty($exists)) {
+            return view('family-member-dashboard')
+            ->with('error', 'Error : Incorrect Combination');
+        }
+        if(!isset($date)) {
+            $doctor = DB::select("
+                select a.appointment_date,
+                concat(u.first_name,' ',u.last_name) as doctor_name 
+                from users u 
+                inner join appointments a on a.doctor_id = u.id
+                where a.patient_id = '{$patient_id}'
+                order by a.appointment_date desc
+                limit 1
+            ");
+            $caregiver = DB::select("
+                select concat(u.first_name,' ',u.last_name) as caregiver_name
+                from users u
+                where role = 5
+                limit 1
+            ");
+            $medicine = DB::select("
+                select morning_med, afternoon_med, evening_med from medications
+                where patient_id = '{$patient_id}'
+            ");
+            $feed = DB::select("
+                select breakfast, lunch, dinner
+                from feed
+                where patient_id = '{$patient_id}'
+            ");
+        } else {
+            $doctor = DB::select("
+                select a.appointment_date,
+                concat(u.first_name,' ',u.last_name) as doctor_name 
+                from users u 
+                inner join appointments a on a.patient_id = u.id
+                where a.patient_id = '{$patient_id}'
+                and a.appointment_date = '{$date}'
+                order by a.appointment_date desc
+                limit 1
+            ");
+            $caregiver = DB::select("
+                select concat(u.first_name,' ',u.last_name) as caregiver_name
+                from users u
+                where role = 5
+                limit 1
+            ");
+            $medicine = DB::select("
+                select morning_med, afternoon_med, evening_med 
+                from medications m
+                inner join appointments a on m.patient_id = a.patient_id
+                where patient_id = '{$patient_id}'
+                and a.appointment_date = '{$date}'
+            ");
+            $feed = DB::select("
+                select breakfast, lunch, dinner
+                from feed
+                where patient_id = '{$patient_id}'
+                and date = '{$date}'
+            ");
+        }
+        return view('family-member-dashboard')
+        ->with(['doctor' => $doctor])
+        ->with(['caregiver' => $caregiver])
+        ->with(['medicine' => $medicine])
+        ->with(['feed' => $feed]);
+    })->name('family-member-patient-details');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
-
     Route::view('', 'welcome')->name('welcome');
     Route::get('/roles', function () {
         $roles = DB::select('
