@@ -17,11 +17,10 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
+                        @foreach($patients as $patient)
                         <tr class="text-gray-700">
                             <td class="px-4 py-3 border">
-                                <div class="flex items-center text-sm">
-                                    Dr. Arafat
-                                </div>
+                                {{ $patient->name }}
                             </td>
                             <td class="px-4 py-3 text-ms font-semibold border">
                                 <input type='checkbox'>
@@ -42,7 +41,7 @@
                                 <input type='checkbox'>
                             </td>
                         </tr>
-
+                        @endforeach
                     </tbody>
                 </table>
             </div>
