@@ -86,7 +86,46 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('dashboard');
     Route::get('/patient-dashboard', function () {
-        return view('patient-dashboard');
+        $patient_id = Auth::user()->id;
+        $patient_name = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name
+            from users u 
+            where u.id = '{$patient_id}'
+        ");
+        $doctor = DB::select("
+            select appointment_date, 
+            concat(u.first_name,' ',u.last_name) as doctor_name
+            from users u 
+            join appointments a on a.patient_id = u.id
+            where a.patient_id = '{$patient_id}'
+            order by appointment_date desc
+            limit 1
+        ");
+        $medicine = DB::select("
+            select morning_med, afternoon_med, evening_med
+            from medications
+            where patient_id = '{$patient_id}'
+            order by appointment_id desc
+            limit 1
+        ");
+        $feed = DB::select("
+            select breakfast, lunch, dinner
+            from feed
+            where patient_id = '{$patient_id}'
+        ");
+        $caregiver_name = DB::select("
+            select concat(u.first_name,' ',u.last_name) as name
+            from users u 
+            where u.role = 5
+            limit 1
+        ");
+        return view('patient-dashboard')
+        ->with('patient_id', $patient_id)
+        ->with('patient_name', $patient_name)
+        ->with('doctor', $doctor)
+        ->with(['medicine' => $medicine])
+        ->with('caregiver_name', $caregiver_name)
+        ->with(['feed' => $feed]);
     })->name('patient-dashboard');
 
     Route::get('doctor-dashboard', function (Request $request) {
