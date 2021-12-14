@@ -17,9 +17,9 @@ class CreateFeedsTable extends Migration
             $table->bigInteger('patient_id')->unsigned();
             $table->foreign('patient_id')->references('id')->on('users');
             $table->date('date');
-            $table->boolean('breakfast')->default(false);
-            $table->boolean('lunch')->default(false);
-            $table->boolean('dinner')->default(false);
+            $table->boolean('breakfast');
+            $table->boolean('lunch');
+            $table->boolean('dinner');
             $table->timestamps();
         });
     }

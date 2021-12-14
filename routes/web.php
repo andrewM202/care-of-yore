@@ -85,7 +85,9 @@ Route::group(['middleware' => ['auth']], function () {
             return redirect('get-roster');
         }
     })->name('dashboard');
-    Route::view('patient-dashboard', 'patient-dashboard')->name('patient-dashboard');
+    Route::get('/patient-dashboard', function () {
+        return view('patient-dashboard');
+    })->name('patient-dashboard');
 
     Route::get('doctor-dashboard', function (Request $request) {
         $doctor_id = Auth::user()->id;
@@ -151,8 +153,49 @@ Route::group(['middleware' => ['auth']], function () {
         }
         return redirect('/doctor-dashboard');
     })->name('update-meds');
+    Route::post('/update-food', function (Request $request) {
+        $breakfast = $request->input('breakfast');
+        $lunch = $request->input('lunch');
+        $dinner = $request->input('dinner');
+        $patient_id = $request->input('patient_id');
+        $today = date('Y-m-d 00:00:00');
+        $food = DB::select("
+            select * from feed
+            where patient_id = '{$patient_id}'
+        ");
+        if (!empty($food)) {
+            DB::update("
+                update feed
+                set breakfast = '{$breakfast}',
+                lunch = '{$lunch}',
+                dinner = '{$dinner}'
+                where patient_id = '{$patient_id}'
+            ");
+        } else {
+            DB::insert("
+                insert into feed (patient_id, date, breakfast, lunch, dinner)
+                values({$patient_id}, '{$today}', '{$breakfast}', '{$lunch}', '{$dinner}')
+            ");
+        }
+        return redirect('/caregiver-dashboard');
+    })->name('update-food');
+    Route::get('/caregiver-dashboard', function () {
+        $date_today = date('Y-m-d');
+        // return $date_today;
+        $patients = DB::select("
+            select distinct concat(u.first_name,' ',u.last_name) as patient_name,
+            m.morning_med, m.afternoon_med, m.evening_med, a.appointment_date, u.id as patient_id,
+            f.breakfast, f.lunch, f.dinner
+            from users u
+            left outer join medications m on u.id = m.patient_id
+            left outer join appointments a on a.patient_id = u.id
+            inner join feed f on f.patient_id = u.id
+            where a.appointment_date = '{$date_today}'
+            and u.role = 3
+        ");
 
-    Route::view('caregiver-dashboard', 'caregiver-dashboard')->name('caregiver-dashboard');
+        return view('caregiver-dashboard', ['patients' => $patients]);
+    })->name('caregiver-dashboard');
     Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
 
     Route::view('', 'welcome')->name('welcome');
