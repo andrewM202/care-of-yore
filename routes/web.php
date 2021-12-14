@@ -780,7 +780,119 @@ Route::group(['middleware' => ['auth']], function () {
         return view('view-roster', ['roster' => $roster])
             ->with('date', $date);
     })->name('view-roster');
-    Route::view('admin-report', 'admin-report')->name('admin-report');
+    Route::get('/admin-report', function () {
+        $date = date('Y-m-d 00:00:00');
+        $patients = DB::select("
+            select distinct concat(u.first_name,' ',u.last_name) as patient_name,
+            u.id as patient_id,
+            appointments.appointment_date,
+            doctor.doctor_name,
+            caregiver.caregiver_name,
+            medications.morning_med, 
+            medications.afternoon_med,
+            medications.evening_med,
+            feed.breakfast,
+            feed.lunch,
+            feed.dinner
+            from
+            (
+                select concat(u2.first_name,' ',u2.last_name) as caregiver_name
+                from users u2
+                where u2.role = 5
+                limit 1
+            ) as caregiver,
+            users u
+            left join lateral (
+                select a.appointment_date, a.patient_id, a.doctor_id
+                from appointments a
+                where a.patient_id = u.id
+                order by appointment_date desc
+                limit 1
+            ) as appointments on appointments.patient_id = u.id
+            left join lateral ( 
+                select m.morning_med, m.afternoon_med, m.evening_med,
+                m.patient_id
+                from medications m
+                where m.patient_id = u.id
+                limit 1
+            ) as medications on medications.patient_id = u.id
+            left join lateral (
+                select f.breakfast, f.lunch, f.dinner, f.patient_id
+                from feed f
+                where f.patient_id = u.id
+                limit 1 
+            ) as feed on feed.patient_id = u.id
+            left join lateral (
+                select concat(u2.first_name,' ',u2.last_name) as doctor_name,
+                u2.id as doctor_id
+                from users u2
+                where concat(u2.first_name,' ',u2.last_name) is not null
+                and u2.id = appointments.doctor_id
+                limit 1
+            ) as doctor on doctor.doctor_id = appointments.doctor_id
+            where u.role = 3
+        ");
+        
+        return view('admin-report')
+        ->with(['patients' => $patients]);
+    })->name('admin-report');
+    Route::get('/admin-report-by-id', function (Request $request) {
+        $patient_id = $request->input('patient_id');
+        $patients = DB::select("
+            select distinct concat(u.first_name,' ',u.last_name) as patient_name,
+            u.id as patient_id,
+            appointments.appointment_date,
+            doctor.doctor_name,
+            caregiver.caregiver_name,
+            medications.morning_med, 
+            medications.afternoon_med,
+            medications.evening_med,
+            feed.breakfast,
+            feed.lunch,
+            feed.dinner
+            from
+            (
+                select concat(u2.first_name,' ',u2.last_name) as caregiver_name
+                from users u2
+                where u2.role = 5
+                limit 1
+            ) as caregiver,
+            users u
+            left join lateral (
+                select a.appointment_date, a.patient_id, a.doctor_id
+                from appointments a
+                where a.patient_id = u.id
+                order by appointment_date desc
+                limit 1
+            ) as appointments on appointments.patient_id = u.id
+            left join lateral ( 
+                select m.morning_med, m.afternoon_med, m.evening_med,
+                m.patient_id
+                from medications m
+                where m.patient_id = u.id
+                limit 1
+            ) as medications on medications.patient_id = u.id
+            left join lateral (
+                select f.breakfast, f.lunch, f.dinner, f.patient_id
+                from feed f
+                where f.patient_id = u.id
+                limit 1 
+            ) as feed on feed.patient_id = u.id
+            left join lateral (
+                select concat(u2.first_name,' ',u2.last_name) as doctor_name,
+                u2.id as doctor_id
+                from users u2
+                where concat(u2.first_name,' ',u2.last_name) is not null
+                and u2.id = appointments.doctor_id
+                limit 1
+            ) as doctor on doctor.doctor_id = appointments.doctor_id
+            where u.role = 3
+            and u.id = '{$patient_id}'
+        ");
+        
+        return view('admin-report')
+        ->with(['patients' => $patients]);
+    })->name('admin-report-by-id');
 });
 
 require __DIR__ . '/auth.php';

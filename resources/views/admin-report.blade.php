@@ -7,66 +7,98 @@
 
     <x-spencer>
        <x-slot name="slot">
-                    <div class="flex items-center justify-center h-full w-full my-4">
-                        <div class="flex justify-center flex-col">
-                            <x-label for='date' :value="__('Date')" />
-                            <x-input type="text" id="date" class="form-input" />
-                        </div>
-                        <div class="flex justify-center mt-3">
-                            <x-button class="mx-4 w-24">Search</x-button>
-                        </div>
-                    </div>
-                    <div class="mx-8 bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-                     <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Patient Activity</h3>
-                     <div class="block w-full overflow-x-auto">
-                        <table class="items-center w-full bg-transparent border-collapse">
-                           <thead>
-                              <tr>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Patient</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Doctor</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Doctor's Appointment</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Caregiver</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">AM Medicine</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Afternoon Medicine</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">PM Medicine</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Breakfast</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Lunch</th>
-                                 <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Dinner</th>
-                              </tr>
-                           </thead>
-                           <tbody class="divide-y divide-gray-100">
-                              <tr class="text-gray-500">
-                                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Name</th>
-                                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">5,649</td>
-                                 <td class="border-t-0 px-4 align-middle text-xs whitespace-nowrap p-4">
-                                    <div class="flex items-center">
-                                       <span class="mr-2 text-xs font-medium">30%</span>
-                                       <div class="relative w-full">
-                                          <div class="w-full bg-gray-200 rounded-sm h-2">
-                                             <div class="bg-cyan-600 h-2 rounded-sm" style="width: 30%"></div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                              <tr class="text-gray-500">
-                                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">Group</th>
-                                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">4,025</td>
-                                 <td class="border-t-0 px-4 align-middle text-xs whitespace-nowrap p-4">
-                                    <div class="flex items-center">
-                                       <span class="mr-2 text-xs font-medium">24%</span>
-                                       <div class="relative w-full">
-                                          <div class="w-full bg-gray-200 rounded-sm h-2">
-                                             <div class="bg-orange-300 h-2 rounded-sm" style="width: 24%"></div>
-                                          </div>
-                                       </div>
-                                    </div>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                    </div>
+         <form method="get" action="{{ route('admin-report-by-id')}}">
+            @csrf
+            <div class="flex items-center justify-center h-full w-full my-4">
+               <div class="flex justify-center flex-col">
+                     <x-label for='patient_id' :value="__('Patient ID')" />
+                     <x-input type="text" name="patient_id" id="patient_id" class="form-input" />
+               </div>
+               <div class="flex justify-center mt-3">
+                     <x-button class="mx-4 w-24">Search</x-button>
+               </div>
+            </div>
+         </form>
+         <table class="w-full">
+            <thead>
+                  <tr class="text-md font-semibold text-left text-gray-900 bg-gray-100 border-b border-gray-600">
+                     <th class="px-4 py-3">Patient's Name</th>
+                     <th class="px-4 py-3">Patient's ID</th>
+                     <th class="px-4 py-3">Doctor's Name</th>
+                     <th class="px-4 py-3">Appointment</th>
+                     <th class="px-4 py-3">Caregiver's Name</th>
+                     <th class="px-4 py-3">Morning Med</th>
+                     <th class="px-4 py-3">Afternoon Med</th>
+                     <th class="px-4 py-3">Night Med</th>
+                     <th class="px-4 py-3">Breakfast</th>
+                     <th class="px-4 py-3">Lunch</th>
+                     <th class="px-4 py-3">Dinner</th>
+                  </tr>
+            </thead>
+            <tbody class="bg-white">
+               @foreach($patients as $patient)
+               <tr class="text-gray-700">
+                  <td class="px-4 py-3 text-ms border">
+                     {{ $patient->patient_name }}
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     {{ $patient->patient_id }}
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     {{ $patient->doctor_name }}
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     {{ $patient->appointment_date }}
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     {{ $patient->caregiver_name }}
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->morning_med == '')
+                     None
+                     @else
+                     {{ $patient->morning_med ?? 'None' }}
+                     @endif
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->afternoon_med == '')
+                     None
+                     @else
+                     {{ $patient->afternoon_med ?? 'None' }}
+                     @endif
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->evening_med == '')
+                     None
+                     @else
+                     {{ $patient->evening_med ?? 'None' }}
+                     @endif
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->breakfast == '')
+                     Not Set
+                     @else
+                     {{ $patient->breakfast ?? 'Not Set' }}
+                     @endif
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->lunch == '')
+                     Not Set
+                     @else
+                     {{ $patient->lunch ?? 'Not Set' }}
+                     @endif
+                  </td>
+                  <td class="px-4 py-3 text-ms border">
+                     @if($patient->dinner == '')
+                     Not Set
+                     @else
+                     {{ $patient->dinner ?? 'Not Set' }}
+                     @endif
+                  </td>
+               </tr>
+               @endforeach
+            </tbody>
+         </table>
        </x-slot>
     </x-spencer>
 
