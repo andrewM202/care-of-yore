@@ -34,6 +34,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/approval', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $users = DB::select('
             select * from users
             where approval = 0
@@ -46,6 +51,11 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('approval');
 
     Route::post('/approve-user', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $id = $request->input('id');
         $user = User::find($id);
         $user->approval = 1;
@@ -54,11 +64,32 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('approve-user');
 
     Route::post('/decline-user', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $id = $request->input('id');
         $user = User::where('id', $id)->delete();
         return redirect('/approval');
     })->name('decline-user');
+    Route::get('/roles', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
+        $roles = DB::select('
+            select * from roles;
+        ');
+        return view('roles', ['roles' => $roles]);
+    })->name('roles');
     Route::post('/add-role', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $role = new Roles;
         $role->role_name = $request->input('newRole');
         $role->access_level = $request->input('accessLevel');
@@ -66,11 +97,15 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/roles');
     })->name('add-role');
     Route::post('/delete-role', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $role_name = $request->input('roleName');
         $user = Roles::where('role_name', $role_name)->firstorfail()->delete();
         return redirect('/roles');
     })->name('delete-role');
-
     Route::get('dashboard', function () {
         $user = Auth::user();
         if ($user->role == 3) {
@@ -86,6 +121,11 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('dashboard');
     Route::get('/patient-dashboard', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 3])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = Auth::user()->id;
         $patient_name = DB::select("
             select concat(u.first_name,' ',u.last_name) as name
@@ -129,6 +169,11 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('patient-dashboard');
 
     Route::get('doctor-dashboard', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 4])) {
+            return redirect('/');
+        } 
+        //
         $doctor_id = Auth::user()->id;
         $currentDate = date('Y-m-d 00:00:00');
         $oldAppointments = DB::select("
@@ -165,6 +210,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->with('appointmentsTill', $appointmentsTill);
     })->name('doctor-dashboard');
     Route::post('update-meds', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 4])) {
+            return redirect('/');
+        } 
+        //
         $morning_med = $request->input('morning_med');
         $afternoon_med = $request->input('afternoon_med');
         $evening_med = $request->input('evening_med');
@@ -193,6 +243,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/doctor-dashboard');
     })->name('update-meds');
     Route::post('/update-food', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 3, 4])) {
+            return redirect('/');
+        } 
+        //
         $breakfast = $request->input('breakfast');
         $lunch = $request->input('lunch');
         $dinner = $request->input('dinner');
@@ -219,6 +274,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/caregiver-dashboard');
     })->name('update-food');
     Route::get('/caregiver-dashboard', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 5])) {
+            return redirect('/');
+        } 
+        //
         $date_today = date('Y-m-d');
         // return $date_today;
         $patients = DB::select("
@@ -236,6 +296,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('caregiver-dashboard', ['patients' => $patients]);
     })->name('caregiver-dashboard');
     Route::post('/family-member-patient-details', function(Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 6])) {
+            return redirect('/');
+        } 
+        //
         $date = $request->input('date');
         $family_code = $request->input('family_code');
         $patient_id = $request->input('patient_id');
@@ -310,15 +375,21 @@ Route::group(['middleware' => ['auth']], function () {
         ->with(['medicine' => $medicine])
         ->with(['feed' => $feed]);
     })->name('family-member-patient-details');
-    Route::view('family-member-dashboard', 'family-member-dashboard')->name('family-member-dashboard');
+    Route::get('/family-member-dashboard', function() {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 6])) {
+            return redirect('/');
+        } 
+        //
+        return view('family-member-dashboard');
+    })->name('family-member-dashboard');
     Route::view('', 'welcome')->name('welcome');
-    Route::get('/roles', function () {
-        $roles = DB::select('
-            select * from roles;
-        ');
-        return view('roles', ['roles' => $roles]);
-    })->name('roles');
     Route::get('/doctor-appointment', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $appointments = DB::select("
             select concat(u.first_name,' ',u.last_name) as doctor_name,
             a.patient_id, a.appointment_date
@@ -330,6 +401,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('doctor-appointment', ['appointments' => $appointments]);
     })->name('doctor-appointment');
     Route::post('/delete-appointment', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $doctor_name = $request->input('doctor_name');
         $appointment_date = $request->input('appointment_date');
@@ -348,6 +424,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('doctor-appointment');
     })->name('delete-appointment');
     Route::post('/fill-appointment-form', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $appointment_date = $request->input('appointment_date');
         $doctor = $request->input('doctors');
@@ -377,6 +458,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->with(['appointments' => $appointments]);
     })->name('fill-appointment-form');
     Route::post('/create-doctor-appointment', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $appointment_date = $request->input('appointment_date');
         $appointment_date = strtotime($appointment_date);
         $appointment_date = date('Y-m-d 00:00:00', $appointment_date);
@@ -391,8 +477,12 @@ Route::group(['middleware' => ['auth']], function () {
 
         return redirect('/doctor-appointment');
     })->name('create-doctor-appointment');
-    Route::view('patients', 'patients')->name('patients');
     Route::post('/patient-search', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 4, 5])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $patient_name = $request->input('patient_name');
         $patient_date_of_birth = $request->input('patient_date_of_birth');
@@ -422,6 +512,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('patients', ['patients' => $patients]);
     })->name('patient-search');
     Route::get('/patients', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 4, 5])) {
+            return redirect('/');
+        } 
+        //
         $patients = DB::select("
             select concat(u.first_name,' ',u.last_name) as name,
             u.id, date_of_birth, emergency_contact, emergency_contact_relation,
@@ -433,8 +528,20 @@ Route::group(['middleware' => ['auth']], function () {
 
         return view('patients', ['patients' => $patients]);
     })->name('patients');
-    Route::view('additional', 'additional')->name('additional');
+    Route::get('additional', function() {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
+        return view('additional');
+    })->name('additional');
     Route::post('/get-patient-name', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $id = $request->input('patientID');
         $patient = DB::select('
             select * from users
@@ -443,6 +550,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('additional', ['patient' => $patient]);
     })->name('get-patient-name');
     Route::post('/update-patient-info', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $id = $request->input('patientID');
         $patient = User::findOrFail($id);
         $patient->group = $request->input('patientGroup');
@@ -451,6 +563,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('additional');
     })->name('update-patient-info');
     Route::get('/payment-search', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $payments = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name,
@@ -462,6 +579,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('payment', ['payments' => $payments]);
     })->name('payment-search');
     Route::post('modify-payment', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $payment_id = $request->input('patient_id');
         $total_due = $request->input('total_due');
         $total_paid = $request->input('total_paid');
@@ -474,6 +596,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect("payment");
     })->name('modify-payment');
     Route::post('/add-payment', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $total_due = $request->input('total_due');
         DB::insert("
@@ -483,6 +610,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect("payment");
     })->name('add-payment');
     Route::get('/payment', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $payments = DB::select("
             select concat(u.first_name,' ',u.last_name) as patient_name,
             total_due - total_paid as amount_left, p.payment_id,
@@ -492,6 +624,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('payment', ['payments' => $payments]);
     })->name('payment');
     Route::POST('/employee-new-salary', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $employee_id = $request->input('employee_id');
         $new_salary = $request->input('new_salary');
 
@@ -505,6 +642,11 @@ Route::group(['middleware' => ['auth']], function () {
         return redirect('/employee-list');
     })->name('employee-new-salary');
     Route::post('/employee-search', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $employee_id = $request->input('employee_id');
         $employee_name = $request->input('employee_name');
         $employee_roll = $request->input('employee_roll');
@@ -558,6 +700,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('employee-list', ['employees' => $employees]);
     })->name('employee-search');
     Route::get('/employee-list', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $employees = DB::select("
             select concat(u.first_name,' ',u.last_name) as name,
             u.id, r.role_name as role, u.salary
@@ -568,6 +715,11 @@ Route::group(['middleware' => ['auth']], function () {
         return view('employee-list', ['employees' => $employees]);
     })->name('employee-list');
     Route::post('/set-roster', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $date = $request->input('roster_date');
         $date = strtotime($date);
         $date = date('Y-m-d 00:00:00', $date);
@@ -665,6 +817,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->with('supervisors', $supervisors);
     })->name('set-roster');
     Route::get('/get-roster/', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         $date = $request->input('roster_date');
         $date = strtotime($date);
         $date = date('Y-m-d 00:00:00', $date);
@@ -710,6 +867,11 @@ Route::group(['middleware' => ['auth']], function () {
         }
     })->name('get-roster');
     Route::get('/view-set-roster', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2])) {
+            return redirect('/');
+        } 
+        //
         // Get latest roster date
         $roster = DB::select("
             select * from rosters
@@ -758,6 +920,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->with('supervisors', $supervisors);
     })->name('view-set-roster');
     Route::get('/view-roster', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1, 2, 3, 4, 5, 6])) {
+            return redirect('/');
+        } 
+        //
         $roster = DB::select("
             select * from rosters
             where roster_date = (
@@ -781,6 +948,11 @@ Route::group(['middleware' => ['auth']], function () {
             ->with('date', $date);
     })->name('view-roster');
     Route::get('/admin-report', function () {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $date = date('Y-m-d 00:00:00');
         $patients = DB::select("
             select distinct concat(u.first_name,' ',u.last_name) as patient_name,
@@ -837,6 +1009,11 @@ Route::group(['middleware' => ['auth']], function () {
         ->with(['patients' => $patients]);
     })->name('admin-report');
     Route::get('/admin-report-by-id', function (Request $request) {
+        // Route Authentication //
+        if (!in_array(Auth::user()->role, [1])) {
+            return redirect('/');
+        } 
+        //
         $patient_id = $request->input('patient_id');
         $patients = DB::select("
             select distinct concat(u.first_name,' ',u.last_name) as patient_name,
