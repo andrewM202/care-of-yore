@@ -228,7 +228,7 @@ Route::group(['middleware' => ['auth']], function () {
             from users u
             left outer join medications m on u.id = m.patient_id
             left outer join appointments a on a.patient_id = u.id
-            inner join feed f on f.patient_id = u.id
+            left outer join feed f on f.patient_id = u.id
             where a.appointment_date = '{$date_today}'
             and u.role = 3
         ");
