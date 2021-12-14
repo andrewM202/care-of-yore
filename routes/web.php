@@ -818,7 +818,7 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('set-roster');
     Route::get('/get-roster/', function (Request $request) {
         // Route Authentication //
-        if (!in_array(Auth::user()->role, [1, 2])) {
+        if (!in_array(Auth::user()->role, [1, 2, 3, 4, 5, 6])) {
             return redirect('/');
         } 
         //
