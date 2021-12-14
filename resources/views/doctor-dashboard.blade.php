@@ -30,7 +30,7 @@
                                     <tbody class="bg-white">
                                         @foreach ($oldAppointments as $appointment)
                                             <tr class="text-gray-700">
-                                                <form method='post' action='{{ route('update-meds') }}'>
+                                                <form method='post' action="{{ route('update-meds') }}">
                                                     @csrf
                                                     <td class="px-4 py-3 border">
                                                         <div class="flex items-center text-sm">
