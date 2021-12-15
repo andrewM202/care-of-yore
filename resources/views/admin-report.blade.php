@@ -4,7 +4,6 @@
             {{ __('Admin Report') }}
         </h2>
     </x-slot>
-
     <x-spencer>
        <x-slot name="slot">
          <form method="get" action="{{ route('admin-report-by-id')}}">
