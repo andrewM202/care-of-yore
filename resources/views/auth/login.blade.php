@@ -10,6 +10,7 @@
         </h1>
     </x-slot>
     <x-auth-card>
+    <x-snow></x-snow>
         <x-slot name="logo">
             <a href="/">
                 <img class='border-b-2 border-gray-600' src='https://i.imgur.com/2gv7ibV.png' style='width: 120px; height: 160px'>
