@@ -519,7 +519,7 @@ Route::group(['middleware' => ['auth']], function () {
         //
         $patients = DB::select("
             select concat(u.first_name,' ',u.last_name) as name,
-            u.id, date_of_birth, emergency_contact, emergency_contact_relation,
+            u.id, date_of_birth, emergency_contact, u.emergency_contact_relation,
             admission_date
             from users u
             join roles r on u.role = r.role_id
