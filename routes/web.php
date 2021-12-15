@@ -978,27 +978,27 @@ Route::group(['middleware' => ['auth']], function () {
                 limit 1
             ) as caregiver,
             users u
-            left join lateral (
+            left outer join lateral (
                 select a.appointment_date, a.patient_id, a.doctor_id
                 from appointments a
                 where a.patient_id = u.id
                 order by appointment_date desc
                 limit 1
             ) as appointments on appointments.patient_id = u.id
-            left join lateral ( 
+            left outer join lateral ( 
                 select m.morning_med, m.afternoon_med, m.evening_med,
                 m.patient_id
                 from medications m
                 where m.patient_id = u.id
                 limit 1
             ) as medications on medications.patient_id = u.id
-            left join lateral (
+            left outer join lateral (
                 select f.breakfast, f.lunch, f.dinner, f.patient_id
                 from feed f
                 where f.patient_id = u.id
                 limit 1 
             ) as feed on feed.patient_id = u.id
-            left join lateral (
+            left outer join lateral (
                 select concat(u2.first_name,' ',u2.last_name) as doctor_name,
                 u2.id as doctor_id
                 from users u2
