@@ -3,7 +3,7 @@
 // Added to query database
 use App\Models\Medications;
 // Model for roles
-use App\Models\Roles;
+use App\Models\roles;
 // Model for users
 use App\Models\Roster;
 // Model for Medications
@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
             return redirect('/');
         } 
         //
-        $role = new Roles;
+        $role = new roles;
         $role->role_name = $request->input('newRole');
         $role->access_level = $request->input('accessLevel');
         $role->save();
