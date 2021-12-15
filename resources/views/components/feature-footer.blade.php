@@ -12,25 +12,25 @@
   <div class="py-20 bg-gray-50 radius-for-skewed">
     <div class="container mx-auto px-4">
       <div class="mb-16 max-w-md mx-auto text-center">
-        <span class="text-green-600 font-bold">Dolor sit amet consectutar</span>
+        <span class="text-green-600 font-bold">A Place Used To Caring © 2021</span>
         <h2 class="text-4xl md:text-5xl font-bold">Care By Those Who Care.</h2>
       </div>
       <div class="flex flex-wrap -mx-4">
         <div class="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-          <h4 class="mb-4 text-2xl font-bold font-heading">Lorem ipsum dolor sit amet consectutar</h4>
-          <p class="text-gray-500 leading-loose">Fusce quam tellus, placerat eu metus ut, viverra aliquet purus. Suspendisse potenti. Nulla non nibh feugiat.</p>
+          <h4 class="mb-4 text-2xl font-bold font-heading">Quality Caretakers On Site</h4>
+          <p class="text-gray-500 leading-loose">Our caretakers are on site 24/7, willing to assist any way they can at any time. This shows in our top 100 caretaking quality ranking in the international inquiry.</p>
         </div>
         <div class="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-          <h4 class="mb-4 text-2xl font-bold font-heading">Ut congue nec leo eget aliquam</h4>
-          <p class="text-gray-500 leading-loose">Ut tempus tellus ac nisi vestibulum tempus. Nunc tincidunt lectus libero, ac ultricies augue elementum at.</p>
+          <h4 class="mb-4 text-2xl font-bold font-heading">Qualified Professionals</h4>
+          <p class="text-gray-500 leading-loose">Our staff includes a variety of professionals to help with any physical or mental issues. Doctors, physicians, psychiatrists, dentists, and more - all licensed with years of experience!</p>
         </div>
         <div class="mb-12 lg:mb-0 w-full md:w-1/2 lg:w-1/4 px-4">
-          <h4 class="mb-4 text-2xl font-bold font-heading">Proin fringilla eleifend justo pellentesque</h4>
-          <p class="text-gray-500 leading-loose">Donec ut ligula nunc. Mauris blandit vel est et facilisis. Integer sapien felis, aliquet at posuere et, porttitor quis ligula.</p>
+          <h4 class="mb-4 text-2xl font-bold font-heading">Beautiful Livingspaces</h4>
+          <p class="text-gray-500 leading-loose">Enjoy georgeous living spaces designed by nationally recognized architects and in-home designers. Terraces, balconies and more - find your new home!</p>
         </div>
         <div class="w-full md:w-1/2 lg:w-1/4 px-4">
-          <h4 class="mb-4 text-2xl font-bold font-heading">Morbi sagittis ligula sit amet elit maximus</h4>
-          <p class="text-gray-500 leading-loose">Duis ut facilisis orci. Morbi lacinia nunc a augue eleifend, sed placerat ex faucibus. Duis ante arcu, pretium ac luctus vulputate.</p>
+          <h4 class="mb-4 text-2xl font-bold font-heading">Freedom, No Hastle</h4>
+          <p class="text-gray-500 leading-loose">Our staff is here to assist you for anything you would like to partake in. That means we are here to help you, no hinder and ignore, like many other homes are known to do!</p>
         </div>
       </div>
     </div>
