@@ -661,6 +661,7 @@ Route::group(['middleware' => ['auth']], function () {
                     join roles r on u.role = r.role_id
                     where concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
                     and r.role_name like '%{$employee_roll}%'
+                    and u.role in(1, 2, 4, 5)
                 ");
             } else {
                 $employees = DB::select("
@@ -670,7 +671,8 @@ Route::group(['middleware' => ['auth']], function () {
                     join roles r on u.role = r.role_id
                     where u.id = '{$employee_id}'
                     and concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
-                    and r.role_name like '%{$employee_roll}%'
+                    and r.role_name like '%{$employee_roll}%
+                    and u.role in(1, 2, 4, 5)
                 ");
             }
         } else {
@@ -683,6 +685,7 @@ Route::group(['middleware' => ['auth']], function () {
                     where concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
                     and r.role_name like '%{$employee_roll}%'
                     and u.salary = '{$employee_salary}'
+                    and u.role in(1, 2, 4, 5)
                 ");
             } else {
                 $employees = DB::select("
@@ -694,6 +697,7 @@ Route::group(['middleware' => ['auth']], function () {
                     and concat(u.first_name,' ',u.last_name) like '%{$employee_name}%'
                     and r.role_name like '%{$employee_roll}%'
                     and u.salary = '{$employee_salary}'
+                    and u.role in(1, 2, 4, 5)
                 ");
             }
         }
