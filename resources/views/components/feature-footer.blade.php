@@ -30,7 +30,7 @@
         </div>
         <div class="w-full md:w-1/2 lg:w-1/4 px-4">
           <h4 class="mb-4 text-2xl font-bold font-heading">Freedom, No Hastle</h4>
-          <p class="text-gray-500 leading-loose">Our staff is here to assist you for anything you would like to partake in. That means we are here to help you, no hinder and ignore, like many other homes are known to do!</p>
+          <p class="text-gray-500 leading-loose">Our staff is here to assist you for anything you would like to partake in. That means we are here to help you, no hindering and ignoring like many other homes are known to do!</p>
         </div>
       </div>
     </div>
