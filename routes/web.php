@@ -5,7 +5,7 @@ use App\Models\Medications;
 // Model for roles
 use App\Models\roles;
 // Model for users
-use App\Models\Roster;
+use App\Models\roster;
 // Model for Medications
 use App\Models\User;
 // Model for appointments
@@ -746,7 +746,7 @@ Route::group(['middleware' => ['auth']], function () {
                 where roster_date = '{$date['date']}'
                 and role = '{$keys[$i]}'
             ");
-            $roster = new Roster;
+            $roster = new roster;
             $roster->roster_date = $date['date'];
             switch ($i) {
                 case $i === 2:
